@@ -1,7 +1,10 @@
 package com.example.aquariumtestapp.navigation
 
+import android.content.Intent
 import com.example.aquariumtestapp.home.home
 import com.example.aquariumtestapp.history.history
+import com.example.aquariumtestapp.shop.shop
+import com.example.aquariumtestapp.account.account
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -27,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.aquariumtestapp.camera.CameraActivity
 import com.example.aquariumtestapp.ui.theme.white
 import com.example.aquariumtestapp.ui.theme.gray
 import com.example.aquariumtestapp.ui.theme.blue
@@ -39,10 +44,11 @@ fun bottomAppBar() {
 
     Scaffold(
         bottomBar = {
-            BottomAppBar (
+            BottomAppBar(
                 containerColor = white
             )
             {
+
                 IconButton(
                     onClick = {
                         selected.value = "home"
@@ -51,11 +57,15 @@ fun bottomAppBar() {
                             popUpTo(0)
                         }
                     },
-                    modifier = Modifier.weight(1f)) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally){
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_home), contentDescription = null, modifier = Modifier.size(26.dp),
-                            tint = if (selected.value == "home") blue else gray)
+                            painter = painterResource(id = R.drawable.ic_home),
+                            contentDescription = null,
+                            modifier = Modifier.size(26.dp),
+                            tint = if (selected.value == "home") blue else gray
+                        )
                         if (selected.value == "home") {
                             Box(
                                 modifier = Modifier
@@ -63,8 +73,7 @@ fun bottomAppBar() {
                                     .padding(top = 4.dp)
                                     .background(blue, shape = CircleShape)
                             )
-                        }
-                        else {
+                        } else {
                             Box(
                                 modifier = Modifier
                                     .size(6.dp)
@@ -82,10 +91,11 @@ fun bottomAppBar() {
                             popUpTo(0)
                         }
                     },
-                    modifier = Modifier.weight(1f)) {
+                    modifier = Modifier.weight(1f)
+                ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
-                            Icons.Default.List,
+                            painter = painterResource(id = R.drawable.ic_history),
                             contentDescription = null,
                             modifier = Modifier.size(26.dp),
                             tint = if (selected.value == "history") blue else gray
@@ -107,6 +117,96 @@ fun bottomAppBar() {
                         }
                     }
                 }
+                IconButton(
+                    onClick = {
+                        selected.value = "shop"
+                        navigationController.navigate(Screens.ShopScreen.screen)
+                        {
+                            popUpTo(0)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_shop),
+                            contentDescription = null,
+                            modifier = Modifier.size(26.dp),
+                            tint = if (selected.value == "shop") blue else gray
+                        )
+                        if (selected.value == "shop") {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .padding(top = 4.dp)
+                                    .background(blue, shape = CircleShape)
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .padding(top = 4.dp)
+                                    .background(white, shape = CircleShape)
+                            )
+                        }
+
+
+                    }
+                }
+                IconButton(
+                    onClick = {
+                        selected.value = "account"
+                        navigationController.navigate(Screens.AccountScreen.screen)
+                        {
+                            popUpTo(0)
+                        }
+                    },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_account),
+                            contentDescription = null,
+                            modifier = Modifier.size(26.dp),
+                            tint = if (selected.value == "account") blue else gray
+                        )
+                        if (selected.value == "account") {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .padding(top = 4.dp)
+                                    .background(blue, shape = CircleShape)
+                            )
+                        } else {
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .padding(top = 4.dp)
+                                    .background(white, shape = CircleShape)
+                            )
+                        }
+                    }
+
+                }
+            }
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        floatingActionButton =  {
+
+            androidx.compose.material3.FloatingActionButton(
+                shape = CircleShape,
+
+                onClick = {
+                    context.startActivity(Intent(context, CameraActivity::class.java))
+                },
+                containerColor = white // Couleur de ton choix
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_search),
+                    contentDescription = "Open Camera",
+                    modifier = Modifier.size(24.dp),
+                    tint = gray
+                )
             }
         }
     )
@@ -118,6 +218,8 @@ fun bottomAppBar() {
         {
             composable(Screens.HomeScreen.screen) { home() }
             composable(Screens.HistoryScreen.screen) { history() }
+            composable(Screens.ShopScreen.screen) { shop() }
+            composable(Screens.AccountScreen.screen) { account()}
         }
     }
 
