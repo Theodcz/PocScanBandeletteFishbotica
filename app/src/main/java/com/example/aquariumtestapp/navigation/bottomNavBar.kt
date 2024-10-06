@@ -37,7 +37,7 @@ import com.example.aquariumtestapp.ui.theme.gray
 import com.example.aquariumtestapp.ui.theme.blue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun bottomAppBar() {
+fun BottomAppBar() {
     val navigationController = rememberNavController()
     val context = LocalContext.current.applicationContext
     val selected = remember { mutableStateOf("home") }
