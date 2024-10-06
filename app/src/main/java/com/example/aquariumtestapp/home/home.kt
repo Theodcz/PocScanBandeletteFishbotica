@@ -1,7 +1,10 @@
 package com.example.aquariumtestapp.home
 
+
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,14 +12,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import androidx.compose.ui.res.colorResource
 import com.example.aquariumtestapp.R
 
 
@@ -26,32 +30,27 @@ fun Home () {
     BlocHautStart()
 }
 
+
 @Composable
 fun BlocHautStart() {
-    Row(
-        modifier = Modifier.padding(16.dp)
+
+
+    Box(
+        contentAlignment = Alignment.TopCenter,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(R.color.whiteBackground))
+
     ) {
-        CircularImage()
-        Column {
-            Text(text = "Bonjour Jamie", modifier = Modifier.padding(8.dp))
-            Text(text = "Explore Task", modifier = Modifier.padding(8.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,  // Aligner les éléments horizontalement au centre
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text("Home")
         }
 
-        CircularImage()
     }
 
 }
 
-
-@Composable
-fun CircularImage() {
-
-    Image(
-        painter = rememberAsyncImagePainter(R.drawable.test),
-        contentDescription = null,
-        modifier = Modifier
-            .size(80.dp) // Dimension de l'image
-            .clip(CircleShape) // Appliquer une forme circulaire
-            .border(1.dp, androidx.compose.ui.graphics.Color.Gray, CircleShape) // Ajouter une bordure
-    )
-}

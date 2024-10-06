@@ -8,6 +8,7 @@ import com.example.aquariumtestapp.account.account
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.offset
 import com.example.aquariumtestapp.R
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -39,7 +41,7 @@ import com.example.aquariumtestapp.ui.theme.blue
 @Composable
 fun bottomAppBar() {
     val navigationController = rememberNavController()
-    val context = LocalContext.current.applicationContext
+    val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
 
     Scaffold(
@@ -131,7 +133,7 @@ fun bottomAppBar() {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_shop),
                             contentDescription = null,
-                            modifier = Modifier.size(26.dp),
+                            modifier = Modifier.size(24.dp),
                             tint = if (selected.value == "shop") blue else gray
                         )
                         if (selected.value == "shop") {
@@ -195,14 +197,14 @@ fun bottomAppBar() {
 
             androidx.compose.material3.FloatingActionButton(
                 shape = CircleShape,
-
                 onClick = {
                     context.startActivity(Intent(context, CameraActivity::class.java))
                 },
-                containerColor = white // Couleur de ton choix
+                containerColor = white, // Couleur de ton choix
+                modifier = Modifier.offset(x=0.dp, y=50.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_search),
+                    painter = painterResource(id = R.drawable.ic_scan),
                     contentDescription = "Open Camera",
                     modifier = Modifier.size(24.dp),
                     tint = gray

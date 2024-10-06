@@ -9,6 +9,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,16 +19,17 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.rounded.AddCircle
-
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
@@ -37,13 +39,15 @@ import java.util.*
 import java.util.concurrent.Executor
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import com.example.aquariumtestapp.R
 
 @Composable
 fun CameraView(
     outputDirectory: File,
     executor: Executor,
     onImageCaptured: (Uri) -> Unit,
-    onError: (ImageCaptureException) -> Unit
+    onError: (ImageCaptureException) -> Unit,
+    onBackPressed : () -> Unit
 ) {
     // 1
     val lensFacing = CameraSelector.LENS_FACING_BACK
@@ -73,9 +77,24 @@ fun CameraView(
     // 3
     Box(contentAlignment = Alignment.BottomCenter, modifier = Modifier.fillMaxSize()) {
         AndroidView({ previewView }, modifier = Modifier.fillMaxSize())
-
         IconButton(
-            modifier = Modifier.padding(bottom = 20.dp),
+            onClick = {
+                onBackPressed() // ferme l'activité
+            },
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.White
+            )
+        }
+        IconButton(
+            modifier = Modifier
+                .padding(bottom = 20.dp)
+                .size(60.dp),
             onClick = {
                 Log.i("kilo", "ON CLICK")
                 takePhoto(
@@ -89,16 +108,32 @@ fun CameraView(
             },
             content = {
                 Icon(
-                    imageVector = Icons.Rounded.AddCircle,
+                    painterResource(id = R.drawable.ic_button),
                     contentDescription = "Take picture",
                     tint = Color.White,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .padding(1.dp)
-                        .border(1.dp, Color.White, CircleShape)
                 )
             }
         )
+        // rectangle
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val width = size.width * 0.1f
+                val height = size.height * 0.5f
+                drawRect(
+                    color = Color.White,
+                    topLeft = androidx.compose.ui.geometry.Offset(
+                        (size.width - width) / 2,
+                        (size.height - height) / 2
+                    ),
+                    size = androidx.compose.ui.geometry.Size(width, height),
+                    style = Stroke(width = 4f) // Contour blanc
+                )
+            }
+        }
     }
 }
 
