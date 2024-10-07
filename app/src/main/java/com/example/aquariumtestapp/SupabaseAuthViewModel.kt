@@ -2,10 +2,13 @@ package com.example.aquariumtestapp
 
 
 import android.content.Context
+import android.content.Intent
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.data.network.SupabaseClient.client
 import com.example.aquariumtestapp.utils.SharedPreferenceHelper
@@ -13,6 +16,8 @@ import io.github.jan.supabase.exceptions.RestException
 import io.github.jan.supabase.gotrue.gotrue
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 class SupabaseAuthViewModel : ViewModel() {
     private val _userState = mutableStateOf<UserState>(UserState.Loading)
@@ -20,8 +25,10 @@ class SupabaseAuthViewModel : ViewModel() {
 
     fun signUp(
         context: Context,
+        displayName : String,
         userEmail: String,
         userPassword: String,
+        navController: NavController,
     ) {
         viewModelScope.launch {
             try {
@@ -29,9 +36,14 @@ class SupabaseAuthViewModel : ViewModel() {
                 client.gotrue.signUpWith(Email) {
                     email = userEmail
                     password = userPassword
+                    data = buildJsonObject {
+                        put("displayname", displayName)
+                    }
                 }
                 saveToken(context)
                 _userState.value = UserState.Success("Registered successfully!")
+                navController.navigate("bottomAppBar")
+
             } catch(e: Exception) {
                 _userState.value = UserState.Error(e.message ?: "")
             }
@@ -45,7 +57,6 @@ class SupabaseAuthViewModel : ViewModel() {
             val sharedPref = SharedPreferenceHelper(context)
             sharedPref.saveStringData("accessToken",accessToken)
         }
-
     }
 
     private fun getToken(context: Context): String? {
@@ -57,6 +68,7 @@ class SupabaseAuthViewModel : ViewModel() {
         context: Context,
         userEmail: String,
         userPassword: String,
+        navController: NavController,
     ) {
         viewModelScope.launch {
             try {
@@ -67,6 +79,8 @@ class SupabaseAuthViewModel : ViewModel() {
                 }
                 saveToken(context)
                 _userState.value = UserState.Success("Logged in successfully!")
+                navController.navigate("bottomAppBar")
+
             } catch (e: Exception) {
                 _userState.value = UserState.Error(e.message ?: "")
             }
@@ -79,9 +93,26 @@ class SupabaseAuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
-                client.gotrue.logout()
-                sharedPref.clearPreferences()
-                _userState.value = UserState.Success("Logged out successfully!")
+
+                // Vérifie si une session est disponible
+                val session = client.gotrue.currentSessionOrNull()
+                if (session != null) {
+                    client.gotrue.logout()
+                    sharedPref.clearPreferences()
+                    _userState.value = UserState.Success("Logged out successfully!")
+
+                    // Redirection vers MainActivity après logout
+                    val intent = Intent(context, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    context.startActivity(intent)
+
+                    // Finir l'activité actuelle si c'est une ComponentActivity
+                    if (context is ComponentActivity) {
+                        context.finish() // Termine l'activité actuelle
+                    }
+                } else {
+                    _userState.value = UserState.Error("No session available to logout.")
+                }
             } catch (e: Exception) {
                 _userState.value = UserState.Error(e.message ?: "")
             }
@@ -90,6 +121,7 @@ class SupabaseAuthViewModel : ViewModel() {
 
     fun isUserLoggedIn(
         context: Context,
+        navController: NavController
     ) {
         viewModelScope.launch {
             try {
@@ -102,11 +134,11 @@ class SupabaseAuthViewModel : ViewModel() {
                     client.gotrue.refreshCurrentSession()
                     saveToken(context)
                     _userState.value = UserState.Success("User already logged in!")
+                    navController.navigate("bottomAppBar")
                 }
             } catch (e: RestException) {
                 _userState.value = UserState.Error(e.error)
             }
         }
     }
-
 }
