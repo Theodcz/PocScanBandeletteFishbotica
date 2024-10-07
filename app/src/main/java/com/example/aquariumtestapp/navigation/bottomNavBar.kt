@@ -1,7 +1,7 @@
 package com.example.aquariumtestapp.navigation
 
 import android.content.Intent
-import com.example.aquariumtestapp.home.Home
+import com.example.aquariumtestapp.home.home
 import com.example.aquariumtestapp.history.history
 import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.account.account
@@ -212,13 +212,13 @@ fun bottomAppBar() {
             }
         }
     )
-    {
-            paddingValues ->
-        NavHost(navController = navigationController,
+    { paddingValues ->
+        NavHost(
+            navController = navigationController,
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { Home() }
+            composable(Screens.HomeScreen.screen) { home() }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account()}
