@@ -26,16 +26,24 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.camera.CameraActivity
+
 import com.example.aquariumtestapp.home.component.DraggableIndicator
 import com.example.aquariumtestapp.home.component.exploreTask
 import com.example.aquariumtestapp.home.component.fastScan
 import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
 import kotlinx.coroutines.launch
+import com.example.aquariumtestapp.data.network.SupabaseClient
+import io.github.jan.supabase.gotrue.gotrue
+
 
 @Composable
 fun home () {
     val context = LocalContext.current
+
+   /* val user = SupabaseClient.client.gotrue.currentUserOrNull()
+    val metadata = user?.userMetadata*/
+
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -57,6 +65,7 @@ fun home () {
             mesure()
 
         }
+       // Text(text = "Welcome ${metadata?.get("displayname")}")
 
     }
 }

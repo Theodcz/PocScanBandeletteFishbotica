@@ -9,6 +9,11 @@ android {
     namespace = "com.example.aquariumtestapp"
     compileSdk = 34
 
+    val key: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir)
+        .getProperty("supabaseKey", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuenVvdnRvdmViandoY2F2b2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NTQ3MDEsImV4cCI6MjA0MzQzMDcwMX0.AW5uL_np0cpkMqFdZ2zVgT19X4qS4dTR8Rb2NQvH814")
+    val url: String = com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir)
+        .getProperty("supabaseUrl", "https://rnzuovtovebjwhcavolb.supabase.co")
+
     defaultConfig {
         applicationId = "com.example.aquariumtestapp"
         minSdk = 30
@@ -20,6 +25,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        buildConfigField("String","supabaseKey","\"$key\"")
+        buildConfigField("String","supabaseUrl","\"$url\"")
     }
 
     buildTypes {
@@ -39,6 +46,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -53,15 +61,15 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
     implementation("androidx.activity:activity-compose:1.9.2")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.navigation:navigation-compose:2.8.0")
+    implementation("androidx.navigation:navigation-compose:2.8.1")
     implementation("androidx.camera:camera-core:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
     implementation("androidx.camera:camera-lifecycle:1.3.4")
@@ -76,4 +84,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("io.coil-kt:coil-compose:2.7.0")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:1.3.2")
+    implementation("io.ktor:ktor-client-cio:2.3.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 }
