@@ -10,22 +10,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.example.aquariumtestapp.camera.CameraActivity
+import com.example.aquariumtestapp.data.network.SupabaseClient
+import io.github.jan.supabase.gotrue.gotrue
 
 @Composable
 fun home () {
     val context = LocalContext.current
 
+    val user = SupabaseClient.client.gotrue.currentUserOrNull()
+    val metadata = user?.userMetadata
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        /*Button(onClick = {
-            // Lancer CameraActivity
-            context.startActivity(Intent(context, CameraActivity::class.java))
-        }) {
-            Text("Open Camera")
-        }*/
-        Text(text = "home")
+
+
+
+        Text(text = "Welcome ${metadata?.get("displayname")}")
     }
 }
