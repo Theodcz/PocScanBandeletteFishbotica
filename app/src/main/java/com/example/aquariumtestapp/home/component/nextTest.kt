@@ -2,7 +2,6 @@ package com.example.aquariumtestapp.home.component
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,13 +11,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -27,18 +29,22 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.example.aquariumtestapp.R
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.home.HomeViewModel
+
 @Composable
 fun nextTest () {
+
+    val homeViewModel: HomeViewModel = viewModel()
+
     Surface(
         modifier = Modifier
             .padding(16.dp)
             .height(170.dp),
-
-                shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(20.dp),
         color = Color.White,
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -106,30 +112,60 @@ fun nextTest () {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxSize().padding(start = 15.dp, end = 7.dp)
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 15.dp, end = 7.dp)
             ){
                 Column(
-                    verticalArrangement = Arrangement.Top,
+                    verticalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxHeight()
-                        .padding(top = 20.dp)
-                ){
-                    Text(
-                        "Jeudi : 12/08",
-                        color = Color(0xFF0D1C1A),
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 22.sp,
-                        modifier = Modifier.padding(bottom = 7.dp)
-                    )
-                    Text(
-                        "Prochain Test",
-                        color = Color(0xFF90A5B4),
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(bottom = 7.dp)
-                    )
-                }
+                        .padding(bottom = 20.dp)
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.Top,
+                        modifier = Modifier
+                            //.fillMaxHeight()
+                            .padding(top = 20.dp)
+                    ){
+                        Text(
+                            "Jeudi : 12/08",
+                            color = Color(0xFF0D1C1A),
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 22.sp,
+                            modifier = Modifier.padding(bottom = 7.dp)
+                        )
+                        Text(
+                            "Prochain Test",
+                            color = Color(0xFF90A5B4),
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(bottom = 7.dp)
+                        )
 
+                    }
+                    Button(
+                        onClick = { homeViewModel.changeState() },
+                        modifier = Modifier
+                            .height(30.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        shape = RoundedCornerShape(20.dp)
+                    ) {
+                        Text(
+                            "Aquarium #1",
+                            color = Color.Black,
+                            fontSize = 12.sp
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_down_arrow),
+                            contentDescription = "Open list of aquariums",
+                            modifier = Modifier
+                                .size(23.dp)
+                                .padding(start = 5.dp),
+                            tint = Color.Black
+                        )
+                    }
+                }
                 Image(
                     painter = painterResource(id = R.drawable.ic_nextscan), // Remplace "nom_de_ton_image" par le nom de ton fichier image sans l'extension
                     contentDescription = null, // Description pour l'accessibilité, si nécessaire

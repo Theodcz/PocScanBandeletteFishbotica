@@ -1,9 +1,17 @@
 package com.example.aquariumtestapp.home.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -67,7 +75,7 @@ fun fastScan () {
 
             .background(color = Color.White)
             .fillMaxWidth(0.9f)
-            .fillMaxHeight(0.75f)
+            .fillMaxHeight(0.80f)
 
     ) {
         Column(
@@ -88,7 +96,7 @@ fun fastScan () {
                 modifier = Modifier.padding(top = 5.dp)
             )
             HorizontalPager(
-                modifier = Modifier.height(configuration.screenHeightDp.dp* 0.29f),
+                modifier = Modifier.height(configuration.screenHeightDp.dp* 0.31f),
                 state = state,
             ) { page ->
                 Card(

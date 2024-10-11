@@ -1,49 +1,51 @@
 package com.example.aquariumtestapp.home
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dokar.sheets.PeekHeight
+import com.dokar.sheets.m3.BottomSheet
+import com.dokar.sheets.rememberBottomSheetState
 import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.camera.CameraActivity
-
-import com.example.aquariumtestapp.home.component.DraggableIndicator
+import com.example.aquariumtestapp.home.component.addAqua
 import com.example.aquariumtestapp.home.component.exploreTask
 import com.example.aquariumtestapp.home.component.fastScan
 import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
-import kotlinx.coroutines.launch
-import com.example.aquariumtestapp.data.network.SupabaseClient
-import io.github.jan.supabase.gotrue.gotrue
-
 
 @Composable
-fun home () {
+fun home (viewModel: HomeViewModel = viewModel()) {
     val context = LocalContext.current
 
-   /* val user = SupabaseClient.client.gotrue.currentUserOrNull()
-    val metadata = user?.userMetadata*/
+    val state = rememberBottomSheetState()
 
+
+    LaunchedEffect(viewModel.stateSheet.value)
+    {
+        if(viewModel.stateSheet.value) {
+            state.expand()
+        }
+        else {
+            state.collapse()
+        }
+
+    }
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -63,9 +65,22 @@ fun home () {
             fastScan()
             Spacer(modifier = Modifier.height(16.dp))
             mesure()
+            BottomSheet(
+                state = state,
+                maxDimAmount = 0.4f,
+                peekHeight = PeekHeight.fraction(3f),
+                skipPeeked = true,
+                shape = RoundedCornerShape(26.dp),
+                backgroundColor = Color.White,
+                modifier = Modifier
+                    .fillMaxHeight(0.5f)
+
+            ) {
+                addAqua()
+            }
 
         }
-       // Text(text = "Welcome ${metadata?.get("displayname")}")
+
 
     }
 }

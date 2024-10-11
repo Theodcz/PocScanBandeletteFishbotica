@@ -122,7 +122,7 @@ fun CameraView(
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val width = size.width * 0.1f
-                val height = size.height * 0.5f
+                val height = size.height * 0.7f
                 drawRect(
                     color = Color.White,
                     topLeft = androidx.compose.ui.geometry.Offset(

@@ -20,13 +20,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.LoadingComponent
-import com.example.aquariumtestapp.SupabaseAuthViewModel
+import com.example.aquariumtestapp.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
-    viewModel: SupabaseAuthViewModel = viewModel(),
+    viewModel: SupabaseViewModel = viewModel(),
     navController: NavHostController,
 ) {
     val context = LocalContext.current

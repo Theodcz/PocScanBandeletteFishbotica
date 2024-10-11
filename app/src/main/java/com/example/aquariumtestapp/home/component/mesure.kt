@@ -36,11 +36,9 @@ fun mesure () {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(13.dp))
-
-
             .background(color = Color(0xFF63A7E6))
             .fillMaxWidth(0.9f)
-            .fillMaxHeight(0.32f)
+            .fillMaxHeight(0.56f)
 
     ) {
         Row(
@@ -49,7 +47,7 @@ fun mesure () {
             modifier = Modifier.fillMaxSize()
         ){
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(start = 10.dp)
             )

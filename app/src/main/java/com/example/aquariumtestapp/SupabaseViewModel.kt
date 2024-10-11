@@ -18,8 +18,9 @@ import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import io.github.jan.supabase.gotrue.providers.AuthProvider
 
-class SupabaseAuthViewModel : ViewModel() {
+class SupabaseViewModel : ViewModel() {
     private val _userState = mutableStateOf<UserState>(UserState.Loading)
     val userState: State<UserState> = _userState
 
@@ -141,4 +142,26 @@ class SupabaseAuthViewModel : ViewModel() {
             }
         }
     }
+
+/*
+    fun saveAquarium(name : String, volume : Int) {
+        val user = SupabaseClient.client.gotrue.currentUserOrNull()
+        val metadata = user?.userMetadata
+
+        viewModelScope.launch {
+            try {
+                _userState.value = UserState.Loading
+                client.postgrest["Aquarium"].insert(
+                    Aquarium(
+                        uuid = metadata?.get("uuid").toString().toString(),
+                        name = name,
+                        volume = volume,
+                    ),
+                )
+                _userState.value = UserState.Success("Added note successfully!")
+            } catch (e: Exception) {
+                _userState.value = UserState.Error("Error: ${e.message}")
+            }
+        }
+    }*/
 }

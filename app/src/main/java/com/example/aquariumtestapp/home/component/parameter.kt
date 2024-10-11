@@ -26,7 +26,7 @@ fun parameter (value: String, parameter: String, color: Color){
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .size(width = 55.dp, height = configuration.screenHeightDp.dp* 0.25f)//300.dp)
+            .size(width = 55.dp, height = configuration.screenHeightDp.dp* 0.28f)//300.dp)
             .clip(RoundedCornerShape(10.dp))
 
             .background(
