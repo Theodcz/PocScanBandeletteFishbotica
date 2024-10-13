@@ -1,22 +1,16 @@
 package com.example.aquariumtestapp.navigation
 
 import android.content.Intent
-import com.example.aquariumtestapp.home.home
-import com.example.aquariumtestapp.history.history
-import com.example.aquariumtestapp.shop.shop
-import com.example.aquariumtestapp.account.account
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
-import com.example.aquariumtestapp.R
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -28,20 +22,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.aquariumtestapp.DataViewModel
+import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
-import com.example.aquariumtestapp.ui.theme.white
-import com.example.aquariumtestapp.ui.theme.gray
+import com.example.aquariumtestapp.history.history
+import com.example.aquariumtestapp.home.home
+import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.ui.theme.blue
+import com.example.aquariumtestapp.ui.theme.gray
+import com.example.aquariumtestapp.ui.theme.white
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomAppBar() {
     val navigationController = rememberNavController()
     val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
-
+    val dataViewModel : DataViewModel = viewModel();
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -216,7 +217,7 @@ fun BottomAppBar() {
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { home() }
+            composable(Screens.HomeScreen.screen) { home(dataViewModel) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account() }

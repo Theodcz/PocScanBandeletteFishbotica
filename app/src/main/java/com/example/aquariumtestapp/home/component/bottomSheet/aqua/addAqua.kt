@@ -1,4 +1,4 @@
-package com.example.aquariumtestapp.home.component
+package com.example.aquariumtestapp.home.component.bottomSheet.aqua
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -29,13 +30,18 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.SupabaseViewModel
 
+
+
 @Composable
 fun addAqua(viewModel: SupabaseViewModel = viewModel(),) {
     var name by remember { mutableStateOf("") }
     var volume by remember { mutableStateOf("")}
+    var nameError by remember { mutableStateOf(false) }
+    var volumeError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier.padding(top = 15.dp, bottom = 35.dp, start = 15.dp, end = 15.dp)
+        modifier = Modifier.padding(top = 10.dp,  start = 15.dp, end = 15.dp)
     )
     {
         Column(
@@ -56,45 +62,81 @@ fun addAqua(viewModel: SupabaseViewModel = viewModel(),) {
                 value = name,
                 onValueChange = {
                     name = it
+                    nameError = false
                 },
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 2.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
+                    .height(56.dp)
                     .background(Color(0x08000000))
-                    .padding(16.dp)
-                    ,
-                textStyle = TextStyle(color = Color.Black),
+                    .padding(16.dp),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp  // Fixe la taille de la police pour éviter le rétrécissement
+                ),
                 decorationBox = { innerTextField ->
                     if (name.isEmpty()) {
-                        Text(text = "Nom :", color = Color.Gray)
+                        Text(text = "Nom :", color = Color.Gray, fontSize = 16.sp)
                     }
                     innerTextField()
                 }
             )
-
+            if (nameError) {
+                Text("Le nom ne peut pas être vide", color = Color.Red, fontSize = 12.sp)
+            }
+            else {
+                Text("")
+            }
             BasicTextField(
                 value = volume,
                 onValueChange = {
                     volume = it
+                    volumeError = false
                 },
                 modifier = Modifier
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 2.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .fillMaxWidth()
+                    .height(56.dp)
                     .background(Color(0x08000000))
                     .padding(16.dp),
-                textStyle = TextStyle(color = Color.Black),
+                textStyle = TextStyle(
+                    color = Color.Black,
+                    fontSize = 16.sp  // Fixe la taille de la police pour éviter le rétrécissement
+                ),
                 decorationBox = { innerTextField ->
                     if (volume.isEmpty()) {
-                        Text(text = "Volume :", color = Color.Gray)
+                        Text(text = "Volume :", color = Color.Gray, fontSize = 16.sp)
                     }
                     innerTextField()
                 }
             )
+            if (volumeError) {
+                Text("Valeur invalide", color = Color.Red, fontSize = 12.sp)
+            }
+            else {
+                Text("")
+            }
             Button(
                 onClick = {
-                    //viewModel.saveAquarium(name, volume.toInt())
+                    // Validation des champs
+                    var valid = true
+                    if (name.isBlank()) {
+                        nameError = true
+                        valid = false
+                    }
+                    val volumeInt = volume.toIntOrNull()
+                    if (volume.isBlank() || volumeInt == null || volumeInt <= 0) {
+                        volumeError = true
+                        errorMessage = "Veuillez entrer un volume valide (nombre positif)."
+                        valid = false
+                    }
+
+                    if (valid) {
+                        viewModel.saveAquarium(name, volumeInt ?: 0)
+                        println("Aquarium saved button")
+                    }
                           },
                 shape = RoundedCornerShape(30),
                 colors = ButtonColors(
@@ -103,7 +145,10 @@ fun addAqua(viewModel: SupabaseViewModel = viewModel(),) {
                     disabledContainerColor = Color.Gray,
                     disabledContentColor = Color.Gray),
                 contentPadding = PaddingValues(13.dp),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+
             )
             {
                 Text("Continue")

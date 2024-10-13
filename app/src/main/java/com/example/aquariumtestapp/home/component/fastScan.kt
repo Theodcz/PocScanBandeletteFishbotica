@@ -49,9 +49,9 @@ fun fastScan () {
             listOf(
                 Triple("7.5", "TA", Color(0x90B3EDE9)),
                 Triple("8.2", "CL2", Color(0x90BFE0FF)),
-                Triple("", "", Color(0x90F1D8E7)),
-                Triple("", "", Color(0x90A8E3C2)),
-                Triple("", "", Color(0x908693D5))
+                Triple("", "", Color(0xAD949494)),
+                Triple("", "", Color(0xAD949494)),
+                Triple("", "", Color(0xAD949494))
             )
         )
     }
@@ -72,7 +72,6 @@ fun fastScan () {
                 spotColor = Color.Black.copy(alpha = 0.5f)
             )
             .clip(RoundedCornerShape(20.dp))
-
             .background(color = Color.White)
             .fillMaxWidth(0.9f)
             .fillMaxHeight(0.80f)

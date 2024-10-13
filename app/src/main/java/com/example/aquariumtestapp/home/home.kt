@@ -12,39 +12,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dokar.sheets.PeekHeight
 import com.dokar.sheets.m3.BottomSheet
 import com.dokar.sheets.rememberBottomSheetState
+import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.home.component.addAqua
+import com.example.aquariumtestapp.home.component.bottomSheet.aqua.listAqua
 import com.example.aquariumtestapp.home.component.exploreTask
 import com.example.aquariumtestapp.home.component.fastScan
 import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
+import kotlinx.coroutines.launch
 
 @Composable
-fun home (viewModel: HomeViewModel = viewModel()) {
+fun home (
+    dataViewModel : DataViewModel
+) {
     val context = LocalContext.current
 
     val state = rememberBottomSheetState()
+    val coroutineScope = rememberCoroutineScope()
 
+    val selectedAquariumId by dataViewModel.aquariumSelected.collectAsState()
 
-    LaunchedEffect(viewModel.stateSheet.value)
-    {
-        if(viewModel.stateSheet.value) {
-            state.expand()
+    LaunchedEffect(selectedAquariumId) {
+
+    }
+
+    fun manageState() {
+        coroutineScope.launch {
+            if (state.isCollapsing) {
+                state.collapse()
+            } else {
+                state.expand()
+            }
         }
-        else {
-            state.collapse()
-        }
-
     }
 
     Box(
@@ -56,27 +67,28 @@ fun home (viewModel: HomeViewModel = viewModel()) {
 
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,  // Aligner les éléments horizontalement au centre
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top,
             modifier = Modifier.fillMaxSize()
         ) {
             exploreTask()
-            nextTest()
+            nextTest ( {manageState()}, dataViewModel )
             fastScan()
             Spacer(modifier = Modifier.height(16.dp))
             mesure()
             BottomSheet(
                 state = state,
-                maxDimAmount = 0.4f,
+                maxDimAmount = 0.5f,
                 peekHeight = PeekHeight.fraction(3f),
                 skipPeeked = true,
                 shape = RoundedCornerShape(26.dp),
                 backgroundColor = Color.White,
                 modifier = Modifier
-                    .fillMaxHeight(0.5f)
+                    .fillMaxHeight(0.65f)
 
             ) {
-                addAqua()
+                //addAqua()
+                listAqua( dataViewModel)
             }
 
         }

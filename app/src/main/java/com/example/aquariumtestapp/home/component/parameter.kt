@@ -53,7 +53,7 @@ fun parameter (value: String, parameter: String, color: Color){
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
-                    text = "mg/L",
+                    text = if (color == Color(0xAD949494)) "" else "mg/L",
                     fontSize = 11.sp,
                     color = Color(0xFF0D1C1A)
                 )

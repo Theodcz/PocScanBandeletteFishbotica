@@ -27,12 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.data.network.SupabaseClient
-import io.github.jan.supabase.gotrue.gotrue
+import io.github.jan.supabase.gotrue.auth
 
 @Composable
 fun exploreTask() {
 
-    val user = SupabaseClient.client.gotrue.currentUserOrNull()
+    val user = SupabaseClient.client.auth.currentUserOrNull()
     val metadata = user?.userMetadata
     // Text(text = "Welcome ${metadata?.get("displayname")}")
     Box(

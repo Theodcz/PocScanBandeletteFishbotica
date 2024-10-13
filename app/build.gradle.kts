@@ -1,9 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    id ("org.jetbrains.kotlin.plugin.serialization")
     id("org.jetbrains.kotlin.plugin.compose")
-
 }
 
 android {
@@ -83,11 +82,13 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.7.0")
     implementation("io.github.dokar3:sheets-m3:0.6.0-alpha05")
     implementation("io.coil-kt:coil-compose:2.7.0")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:1.3.2")
-
-    implementation("io.ktor:ktor-client-cio:2.3.4")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.6.1")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt:2.6.1")
+    implementation("io.ktor:ktor-client-cio:2.3.12")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
-
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
+    implementation("org.jetbrains.kotlin:kotlin-serialization:2.0.21")
+    implementation("com.google.code.gson:gson:2.8.8")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")

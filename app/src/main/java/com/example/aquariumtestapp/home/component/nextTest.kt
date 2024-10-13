@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,14 +30,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.home.HomeViewModel
 
 @Composable
-fun nextTest () {
+fun nextTest (
+    state : () -> Unit,
+    dataViewModel : DataViewModel
+) {
 
-    val homeViewModel: HomeViewModel = viewModel()
 
     Surface(
         modifier = Modifier
@@ -49,7 +49,7 @@ fun nextTest () {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Canvas(modifier = Modifier.fillMaxSize()) {
-                // Première vague
+                // Premiere vague
                 val waveHeight1 = size.height * 0.6f
                 val path1 = Path().apply {
                     moveTo(0f, waveHeight1)
@@ -145,25 +145,28 @@ fun nextTest () {
 
                     }
                     Button(
-                        onClick = { homeViewModel.changeState() },
+                        onClick = { state() },
                         modifier = Modifier
-                            .height(30.dp),
+                            .height(35.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                         shape = RoundedCornerShape(20.dp)
                     ) {
-                        Text(
-                            "Aquarium #1",
-                            color = Color.Black,
-                            fontSize = 12.sp
-                        )
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_down_arrow),
-                            contentDescription = "Open list of aquariums",
-                            modifier = Modifier
-                                .size(23.dp)
-                                .padding(start = 5.dp),
-                            tint = Color.Black
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            ) {
+                            Text(
+                                dataViewModel.aquariumName.value,
+                                color = Color.Black,
+                                fontSize = 12.sp,
+                                modifier = Modifier.padding(end = 5.dp)
+                            )
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_down_arrow),
+                                contentDescription = "Open list of aquariums",
+                                tint = Color.Black
+                            )
+                        }
                     }
                 }
                 Image(
