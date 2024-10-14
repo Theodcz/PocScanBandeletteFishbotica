@@ -90,8 +90,9 @@ fun fastScan () {
 
             }, fontSize = 18.sp)
             Text(
-                text = "Paramètre chimiques de l'aquarium",
+                text = "Paramètres chimiques de l'aquarium",
                 fontSize = 14.sp,
+                color = Color(0xFF696969),
                 modifier = Modifier.padding(top = 5.dp)
             )
             HorizontalPager(
