@@ -43,7 +43,7 @@ fun fastScan () {
                 Triple("7.5", "pH", Color(0x90B3EDE9)),
                 Triple("8.2", "KH", Color(0x90BFE0FF)),
                 Triple("20", "GH", Color(0x90F1D8E7)),
-                Triple("100", "N02", Color(0x90A8E3C2)),
+                Triple("100", "NO2", Color(0x90A8E3C2)),
                 Triple("400", "NO3", Color(0x908693D5))
             ),
             listOf(
