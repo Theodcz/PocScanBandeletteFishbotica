@@ -1,4 +1,4 @@
-package com.example.aquariumtestapp
+package com.example.aquariumtestapp.data
 
 
 import android.content.Context

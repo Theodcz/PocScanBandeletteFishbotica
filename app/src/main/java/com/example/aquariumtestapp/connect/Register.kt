@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.SupabaseViewModel
+import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.aquariumtestapp
+package com.example.aquariumtestapp.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

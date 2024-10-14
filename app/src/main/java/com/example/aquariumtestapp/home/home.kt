@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.dokar.sheets.PeekHeight
 import com.dokar.sheets.m3.BottomSheet
 import com.dokar.sheets.rememberBottomSheetState
-import com.example.aquariumtestapp.DataViewModel
+import com.example.aquariumtestapp.data.DataViewModel
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.home.component.bottomSheet.addAqua
 import com.example.aquariumtestapp.home.component.bottomSheet.aquaIsAdd

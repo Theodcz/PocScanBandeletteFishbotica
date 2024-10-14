@@ -17,7 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.SupabaseViewModel
+import com.example.aquariumtestapp.data.SupabaseViewModel
 
 
 @Composable
