@@ -89,6 +89,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics-buildtools:3.0.2")
     implementation("org.jetbrains.kotlin:kotlin-serialization:2.0.21")
     implementation("com.google.code.gson:gson:2.8.8")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
