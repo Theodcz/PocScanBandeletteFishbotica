@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,22 +26,29 @@ import com.dokar.sheets.rememberBottomSheetState
 import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.home.component.bottomSheet.aqua.listAqua
+import com.example.aquariumtestapp.home.component.bottomSheet.addAqua
+import com.example.aquariumtestapp.home.component.bottomSheet.aquaIsAdd
+import com.example.aquariumtestapp.home.component.bottomSheet.listAqua
 import com.example.aquariumtestapp.home.component.exploreTask
 import com.example.aquariumtestapp.home.component.fastScan
 import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
 import kotlinx.coroutines.launch
 
-import com.example.aquariumtestapp.data.network.SupabaseClient
-import io.github.jan.supabase.gotrue.auth
+
 @Composable
 fun home (
     dataViewModel : DataViewModel
 ) {
-    val context = LocalContext.current
-
     val state = rememberBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
+    val isAddingAqua = remember { mutableStateOf("listAqua") }  // État pour gérer le contenu du BottomSheet
+
+
+    fun manageNavBottomBar(nav: String) {
+        isAddingAqua.value = nav
+    }
+
 
     fun manageState() {
         coroutineScope.launch {
@@ -79,13 +88,29 @@ fun home (
                 modifier = Modifier
                     .fillMaxHeight(0.65f)
 
+
+
             ) {
-                //addAqua()
-                listAqua( dataViewModel)
+                when (isAddingAqua.value) {
+                    "listAqua" -> {
+                        listAqua({manageNavBottomBar("Continue")},{manageNavBottomBar("addAqua")},dataViewModel)
+                    }
+                    "addAqua" -> {
+                        addAqua ({manageNavBottomBar("listAqua")}, {manageNavBottomBar("aquaIsAdd")})
+                    }
+                    "aquaIsAdd" -> {
+                        aquaIsAdd {manageNavBottomBar("Continue")}
+                    }
+                    else -> {
+                        coroutineScope.launch {
+                            state.collapse()
+                        }
+                        manageNavBottomBar("listAqua")
+                    }
+                }
+
             }
-
         }
-
 
     }
 }

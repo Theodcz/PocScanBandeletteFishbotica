@@ -16,6 +16,7 @@ import com.example.aquariumtestapp.SupabaseViewModel
 
 @Composable
 fun account (viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
+
     val context = LocalContext.current
 
     Box(

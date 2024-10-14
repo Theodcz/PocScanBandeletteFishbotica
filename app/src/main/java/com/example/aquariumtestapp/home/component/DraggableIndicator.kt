@@ -105,7 +105,8 @@ fun DraggableIndicator(
             verticalAlignment = Alignment.CenterVertically
         ) {
             items(itemCount) { i ->
-                val scaleFactor = 1f - (0.1f * abs(i - currentPage)).coerceAtMost(0.4f)
+
+                val scaleFactor = 2.5f - (0.1f * abs(i - currentPage)).coerceAtMost(0.4f)
                 val color = if (i == currentPage) Color(0xFF03A9F4) else Color.Gray
                 Box(
                     modifier = Modifier
