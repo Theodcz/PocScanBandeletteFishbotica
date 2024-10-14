@@ -1,6 +1,5 @@
 package com.example.aquariumtestapp.account
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
@@ -13,11 +12,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.aquariumtestapp.SupabaseAuthViewModel
 
 @Composable
-fun account (viewModel: SupabaseAuthViewModel = viewModel()) {
+fun account (viewModel: SupabaseAuthViewModel = viewModel(), navController: NavHostController) {
     val context = LocalContext.current
 
     Box(
@@ -28,7 +26,7 @@ fun account (viewModel: SupabaseAuthViewModel = viewModel()) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
             onClick = {
-                viewModel.logout(context)
+                viewModel.logout(context, navController = navController)
             }) {
             Text(text = "Logout")
         }

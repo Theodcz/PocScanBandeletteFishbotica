@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fond noir -->
+    <item android:drawable="@android:color/black" />
+
+    <!-- Logo centré -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/fishbotica" />
+    </item>
+</layer-list>

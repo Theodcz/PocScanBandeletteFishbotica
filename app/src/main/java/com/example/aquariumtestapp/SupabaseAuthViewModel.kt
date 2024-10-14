@@ -2,8 +2,6 @@ package com.example.aquariumtestapp
 
 
 import android.content.Context
-import android.content.Intent
-import androidx.activity.ComponentActivity
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -13,7 +11,7 @@ import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.data.network.SupabaseClient.client
 import com.example.aquariumtestapp.utils.SharedPreferenceHelper
 import io.github.jan.supabase.exceptions.RestException
-import io.github.jan.supabase.gotrue.gotrue
+import io.github.jan.supabase.gotrue.auth
 import io.github.jan.supabase.gotrue.providers.builtin.Email
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.buildJsonObject
@@ -33,7 +31,7 @@ class SupabaseAuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
-                client.gotrue.signUpWith(Email) {
+                client.auth.signUpWith(Email) {
                     email = userEmail
                     password = userPassword
                     data = buildJsonObject {
@@ -53,7 +51,7 @@ class SupabaseAuthViewModel : ViewModel() {
 
     private fun saveToken(context: Context) {
         viewModelScope.launch {
-            val accessToken = client.gotrue.currentAccessTokenOrNull()
+            val accessToken = client.auth.currentAccessTokenOrNull()
             val sharedPref = SharedPreferenceHelper(context)
             sharedPref.saveStringData("accessToken",accessToken)
         }
@@ -73,7 +71,7 @@ class SupabaseAuthViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
-                client.gotrue.loginWith(Email) {
+                client.auth.signInWith(Email) {
                     email = userEmail
                     password = userPassword
                 }
@@ -88,28 +86,22 @@ class SupabaseAuthViewModel : ViewModel() {
         }
     }
 
-    fun logout(context: Context) {
+    fun logout(context: Context,
+               navController: NavController) {
         val sharedPref = SharedPreferenceHelper(context)
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
 
                 // Vérifie si une session est disponible
-                val session = client.gotrue.currentSessionOrNull()
+                val session = client.auth.currentSessionOrNull()
                 if (session != null) {
-                    client.gotrue.logout()
+                    client.auth.signOut()
                     sharedPref.clearPreferences()
                     _userState.value = UserState.Success("Logged out successfully!")
 
-                    // Redirection vers MainActivity après logout
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    context.startActivity(intent)
-
-                    // Finir l'activité actuelle si c'est une ComponentActivity
-                    if (context is ComponentActivity) {
-                        context.finish() // Termine l'activité actuelle
-                    }
+                    // Redirige vers la page de connexion
+                    navController.navigate("login&register")
                 } else {
                     _userState.value = UserState.Error("No session available to logout.")
                 }
@@ -119,22 +111,18 @@ class SupabaseAuthViewModel : ViewModel() {
         }
     }
 
-    fun isUserLoggedIn(
-        context: Context,
-        navController: NavController
-    ) {
+    fun isUserLoggedIn(context: Context) {
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
                 val token = getToken(context)
-                if(token.isNullOrEmpty()) {
+                if (token.isNullOrEmpty()) {
                     _userState.value = UserState.Success("User not logged in!")
                 } else {
-                    client.gotrue.retrieveUser(token)
-                    client.gotrue.refreshCurrentSession()
+                    client.auth.retrieveUser(token)
+                    client.auth.refreshCurrentSession()
                     saveToken(context)
                     _userState.value = UserState.Success("User already logged in!")
-                    navController.navigate("bottomAppBar")
                 }
             } catch (e: RestException) {
                 _userState.value = UserState.Error(e.error)

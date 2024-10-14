@@ -1,14 +1,9 @@
 package com.example.aquariumtestapp.navigation
 
 import android.content.Intent
-import com.example.aquariumtestapp.home.home
-import com.example.aquariumtestapp.history.history
-import com.example.aquariumtestapp.shop.shop
-import com.example.aquariumtestapp.account.account
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import com.example.aquariumtestapp.R
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -26,16 +21,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
-import com.example.aquariumtestapp.ui.theme.white
-import com.example.aquariumtestapp.ui.theme.gray
+import com.example.aquariumtestapp.history.history
+import com.example.aquariumtestapp.home.home
+import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.ui.theme.blue
+import com.example.aquariumtestapp.ui.theme.gray
+import com.example.aquariumtestapp.ui.theme.white
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomAppBar() {
+fun bottomAppBar(navController: NavHostController) {
     val navigationController = rememberNavController()
     val context = LocalContext.current.applicationContext
     val selected = remember { mutableStateOf("home") }
@@ -51,9 +52,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "home"
                         navigationController.navigate(Screens.HomeScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -85,9 +83,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "history"
                         navigationController.navigate(Screens.HistoryScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -119,9 +114,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "shop"
                         navigationController.navigate(Screens.ShopScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -155,9 +147,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "account"
                         navigationController.navigate(Screens.AccountScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -217,7 +206,7 @@ fun BottomAppBar() {
             composable(Screens.HomeScreen.screen) { home() }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
-            composable(Screens.AccountScreen.screen) { account() }
+            composable(Screens.AccountScreen.screen) { account(navController = navController) }
         }
     }
 }
