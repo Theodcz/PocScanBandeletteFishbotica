@@ -30,7 +30,7 @@ class SupabaseViewModel : ViewModel() {
 
     fun signUp(
         context: Context,
-        displayName : String,
+        displayName: String,
         userEmail: String,
         userPassword: String,
         navController: NavController,
@@ -49,7 +49,7 @@ class SupabaseViewModel : ViewModel() {
                 _userState.value = UserState.Success("Registered successfully!")
                 navController.navigate("bottomAppBar")
 
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _userState.value = UserState.Error(e.message ?: "")
             }
 
@@ -60,7 +60,7 @@ class SupabaseViewModel : ViewModel() {
         viewModelScope.launch {
             val accessToken = client.auth.currentAccessTokenOrNull()
             val sharedPref = SharedPreferenceHelper(context)
-            sharedPref.saveStringData("accessToken",accessToken)
+            sharedPref.saveStringData("accessToken", accessToken)
         }
     }
 
@@ -93,8 +93,10 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-    fun logout(context: Context,
-               navController: NavController) {
+    fun logout(
+        context: Context,
+        navController: NavController
+    ) {
         val sharedPref = SharedPreferenceHelper(context)
         viewModelScope.launch {
             try {
@@ -137,7 +139,8 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-    private val _aquariumData = MutableStateFlow<List<AquariumSelect>?>(null) // Utilisation de MutableStateFlow pour gérer l'état des données
+    private val _aquariumData =
+        MutableStateFlow<List<AquariumSelect>?>(null) // Utilisation de MutableStateFlow pour gérer l'état des données
     val aquariumData: StateFlow<List<AquariumSelect>?> get() = _aquariumData // Exposition de l'état
 
 
@@ -166,7 +169,7 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-    fun deleteAquarium(idAquarium : Int) {
+    fun deleteAquarium(idAquarium: Int) {
         val user = client.auth.currentUserOrNull()
         val userId = user?.id
 
@@ -176,7 +179,7 @@ class SupabaseViewModel : ViewModel() {
 
                 // Effectuer la requête pour supprimer l'aquarium
                 val response = client.postgrest["Aquarium"].delete {
-                    filter{
+                    filter {
                         eq("aquariumId", idAquarium)
                         eq("uuid", userId.toString())
                     }
@@ -192,7 +195,7 @@ class SupabaseViewModel : ViewModel() {
 
     }
 
-    fun saveAquarium(name : String, volume : Int) {
+    fun saveAquarium(name: String, volume: Int) {
         val user = client.auth.currentUserOrNull()
         val id = user?.id
 

@@ -34,7 +34,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.data.model.UserState
 
-@Composable 
+@Composable
 fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
     val context = LocalContext.current
     val userState by viewModel.userState
