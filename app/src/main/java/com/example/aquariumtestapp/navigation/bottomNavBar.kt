@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -22,9 +23,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
@@ -38,9 +41,9 @@ import com.example.aquariumtestapp.ui.theme.white
 @Composable
 fun bottomAppBar(navController: NavHostController) {
     val navigationController = rememberNavController()
-    val context = LocalContext.current.applicationContext
+    val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
-
+    val dataViewModel : DataViewModel = viewModel();
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -121,7 +124,7 @@ fun bottomAppBar(navController: NavHostController) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_shop),
                             contentDescription = null,
-                            modifier = Modifier.size(26.dp),
+                            modifier = Modifier.size(24.dp),
                             tint = if (selected.value == "shop") blue else gray
                         )
                         if (selected.value == "shop") {
@@ -182,14 +185,14 @@ fun bottomAppBar(navController: NavHostController) {
 
             androidx.compose.material3.FloatingActionButton(
                 shape = CircleShape,
-
                 onClick = {
                     context.startActivity(Intent(context, CameraActivity::class.java))
                 },
-                containerColor = white // Couleur de ton choix
+                containerColor = white, // Couleur de ton choix
+                modifier = Modifier.offset(x=0.dp, y=50.dp)
             ) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_search),
+                    painter = painterResource(id = R.drawable.ic_scan),
                     contentDescription = "Open Camera",
                     modifier = Modifier.size(24.dp),
                     tint = gray
@@ -197,13 +200,13 @@ fun bottomAppBar(navController: NavHostController) {
             }
         }
     )
-    {
-            paddingValues ->
-        NavHost(navController = navigationController,
+    { paddingValues ->
+        NavHost(
+            navController = navigationController,
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { home() }
+            composable(Screens.HomeScreen.screen) { home(dataViewModel) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account(navController = navController) }

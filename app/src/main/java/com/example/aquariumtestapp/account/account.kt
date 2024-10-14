@@ -12,10 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.aquariumtestapp.SupabaseAuthViewModel
+import com.example.aquariumtestapp.SupabaseViewModel
+
 
 @Composable
-fun account (viewModel: SupabaseAuthViewModel = viewModel(), navController: NavHostController) {
+fun account (viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
+
     val context = LocalContext.current
 
     Box(
