@@ -1,46 +1,70 @@
 package com.example.aquariumtestapp.shop
 
-import android.content.Intent
-import android.net.Uri
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.R
 
 @Composable
-fun shop () {
+fun shop() {
 
     val context = LocalContext.current
 
+    val articles = listOf(
+        Article(R.drawable.aquatest, "Bandelettes FastScan", 8.99),
+        Article(R.drawable.aquatest, "Substrat Sol", 49.00),
+        Article(R.drawable.aquatest, "Flacon pH", 59.00)
+    )
+
+
     Box(
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.TopCenter,
         modifier = Modifier
             .fillMaxSize()
-    ){
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            Text("Bandelette de test")
+            .background(colorResource(R.color.whiteBackground))
+            .padding(top = 16.dp)
 
-            Image(
-                painter = painterResource(id = R.drawable.aquatest),
-                contentDescription = "plaquette", modifier = Modifier.size(250.dp).padding(16.dp).clickable {
-                    // Créer une intention pour ouvrir un lien dans un navigateur
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://deploy-app-fishbotica.vercel.app/boutique"))
-                    context.startActivity(intent)
-                }
+    ) {
+        Column {
+            Text(
+                text = "Articles de la boutique",
+                color = colorResource(R.color.black),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold
             )
+
+            Spacer(modifier = Modifier.padding(5.dp))
+
+            LazyColumn {
+                items(articles.count()) {
+                    val article = articles[it]
+                    ArticleBoutique(
+                        image = article.image,
+                        name = article.name,
+                        price = article.price
+                    )
+                    Spacer(modifier = Modifier.padding(10.dp))
+                }
+            }
         }
     }
 }
+
+data class Article(
+    val image: Int,
+    val name: String,
+    val price: Double
+)
