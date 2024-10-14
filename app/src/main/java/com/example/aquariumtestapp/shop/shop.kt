@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +31,6 @@ fun shop() {
         Article(R.drawable.aquatest, "Flacon pH", 59.00)
     )
 
-
     Box(
         contentAlignment = Alignment.TopCenter,
         modifier = Modifier
@@ -38,30 +39,37 @@ fun shop() {
             .padding(top = 16.dp)
 
     ) {
-        Column {
-            Text(
-                text = "Articles de la boutique",
-                color = colorResource(R.color.black),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
 
-            Spacer(modifier = Modifier.padding(5.dp))
+        ) {
+                Text(
+                    text = "Boutique Fishbotica",
+                    modifier = Modifier.padding(10.dp),
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+        }
 
-            LazyColumn {
-                items(articles.count()) {
-                    val article = articles[it]
-                    ArticleBoutique(
-                        image = article.image,
-                        name = article.name,
-                        price = article.price
-                    )
-                    Spacer(modifier = Modifier.padding(10.dp))
-                }
+        LazyColumn(modifier = Modifier.padding(top = 200.dp)) {
+            items(articles.count()) {
+                val article = articles[it]
+
+                ArticleBoutique(
+                    image = article.image,
+                    name = article.name,
+                    price = article.price
+                )
+                Spacer(modifier = Modifier.padding(10.dp))
             }
         }
     }
 }
+
 
 data class Article(
     val image: Int,

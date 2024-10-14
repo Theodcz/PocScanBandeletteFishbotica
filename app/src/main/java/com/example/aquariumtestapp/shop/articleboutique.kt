@@ -1,7 +1,10 @@
 package com.example.aquariumtestapp.shop
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,17 +26,23 @@ import com.example.aquariumtestapp.R
 
 @Composable
 fun ArticleBoutique(image: Int, name: String, price: Double) {
+    val context = LocalContext.current
+
     Box(
         modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(color = Color.White)
-            .size(356.dp, 110.dp)
+            .size(356.dp, 110.dp).clickable(onClick = {
+                // go to a web page
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://deploy-app-fishbotica.vercel.app/boutique"))
+                context.startActivity(intent) // Démarre l'activité avec l'intent
+            })
 
     ) {
         Row (modifier = Modifier.padding(10.dp)){
             Box(
                 modifier = Modifier
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(8.dp))
                     .background(color = Color(0xFFF4F5F7))
                     .size(105.dp, 86.dp)
             ) {
