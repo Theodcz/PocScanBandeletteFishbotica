@@ -30,6 +30,8 @@ import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
 import kotlinx.coroutines.launch
 
+import com.example.aquariumtestapp.data.network.SupabaseClient
+import io.github.jan.supabase.gotrue.auth
 @Composable
 fun home (
     dataViewModel : DataViewModel

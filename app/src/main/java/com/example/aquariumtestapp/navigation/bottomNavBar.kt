@@ -27,6 +27,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.aquariumtestapp.DataViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
@@ -38,7 +42,7 @@ import com.example.aquariumtestapp.ui.theme.gray
 import com.example.aquariumtestapp.ui.theme.white
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BottomAppBar() {
+fun bottomAppBar(navController: NavHostController) {
     val navigationController = rememberNavController()
     val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
@@ -54,9 +58,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "home"
                         navigationController.navigate(Screens.HomeScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -88,9 +89,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "history"
                         navigationController.navigate(Screens.HistoryScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -122,9 +120,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "shop"
                         navigationController.navigate(Screens.ShopScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -158,9 +153,6 @@ fun BottomAppBar() {
                     onClick = {
                         selected.value = "account"
                         navigationController.navigate(Screens.AccountScreen.screen)
-                        {
-                            popUpTo(0)
-                        }
                     },
                     modifier = Modifier.weight(1f)
                 ) {
@@ -220,7 +212,7 @@ fun BottomAppBar() {
             composable(Screens.HomeScreen.screen) { home(dataViewModel) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
-            composable(Screens.AccountScreen.screen) { account() }
+            composable(Screens.AccountScreen.screen) { account(navController = navController) }
         }
     }
 }

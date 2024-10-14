@@ -96,5 +96,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.6.1")
+    implementation("io.ktor:ktor-client-cio:2.3.12")
 
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
 }

@@ -11,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.SupabaseViewModel
 
 @Composable
-fun account (viewModel: SupabaseViewModel = viewModel()) {
+fun account (viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
     val context = LocalContext.current
 
     Box(
@@ -25,7 +26,7 @@ fun account (viewModel: SupabaseViewModel = viewModel()) {
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
             onClick = {
-                viewModel.logout(context)
+                viewModel.logout(context, navController = navController)
             }) {
             Text(text = "Logout")
         }

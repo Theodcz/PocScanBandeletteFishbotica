@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.AquariumTestApp" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Thème principal de l'application -->
+    <style name="Theme.AquariumTestApp" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Personnalisation pour le thème de l'application ici -->
+    </style>
+
+    <!-- Thème pour le Splash Screen -->
+    <style name="SplashTheme" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
 </resources>
