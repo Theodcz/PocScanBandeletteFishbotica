@@ -125,10 +125,13 @@ class SupabaseViewModel : ViewModel() {
             try {
                 _userState.value = UserState.Loading
                 val token = getToken(context)
+                println("Token: $token")
                 if (token.isNullOrEmpty()) {
                     _userState.value = UserState.Success("User not logged in!")
                 } else {
+                    println("Retrieving user...")
                     client.auth.retrieveUser(token)
+                    println("Refreshing session...")
                     client.auth.refreshCurrentSession()
                     saveToken(context)
                     _userState.value = UserState.Success("User already logged in!")

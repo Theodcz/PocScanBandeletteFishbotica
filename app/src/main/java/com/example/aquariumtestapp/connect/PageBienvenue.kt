@@ -65,7 +65,7 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
         }
 
         is UserState.Error -> {
-            Text("Erreur : ${(userState as UserState.Error).message}")
+            isLoading = false
         }
     }
 

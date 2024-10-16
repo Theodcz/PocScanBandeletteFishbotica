@@ -38,6 +38,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.utils.LoadingComponent
 
 @Composable
 fun shop(viewModel: ViewModelArticle = viewModel()) {
@@ -45,6 +47,7 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
     val context = LocalContext.current
 
     val articleData by viewModel.articleData.collectAsState() // aquariumData est maintenant de type List<AquariumResponse>?
+    val userState by viewModel.userState
 
     LaunchedEffect(Unit)
     {
@@ -160,10 +163,31 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
             )
         }
 
-        LazyColumn(content = {
-            items(articleData ?: emptyList()) { article ->
-                ArticleBoutique(article.imageArticle, article.nomArticle, article.prixArticle)
+        when (userState) {
+            is UserState.Loading -> {
+                LoadingComponent()
             }
-        })
+
+            is UserState.Error -> {
+                Text(
+                    text = "Erreur lors des articles",
+                    color = Color.Red,
+                    fontSize = 18.sp
+                )
+            }
+
+            is UserState.Success ->
+                LazyColumn(modifier = Modifier
+                    .padding(top = 330.dp),
+                    content = {
+                        items(articleData ?: emptyList()) { article ->
+                            ArticleBoutique(
+                                article.imageArticle,
+                                article.nomArticle,
+                                article.prixArticle
+                            )
+                        }
+                    })
+        }
     }
 }
