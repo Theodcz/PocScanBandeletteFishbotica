@@ -56,19 +56,54 @@ fun shop() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
+                .padding(start = 10.dp, end = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Box(
+                modifier = Modifier
+                    .size(356.dp, 55.dp)
+                    .border(1.dp, Color.White, shape = RoundedCornerShape(40.dp))
+                    .background(Color.White, shape = RoundedCornerShape(40.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 18.sp
+                            )
+                        ) {
+                            append("Boutique ")
+                        }
+                        append("Fishbotica")
+                    },
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                )
+            }
+
+            Spacer(modifier = Modifier.padding(10.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.headeraqua),
+                contentDescription = "",
+                modifier = Modifier
+                    .clip(RoundedCornerShape(10.dp))
+                    .fillMaxWidth()
+                    .size(356.dp, 145.dp),
+                contentScale = ContentScale.FillWidth // Étire l'image pour qu'elle prenne toute la largeur
+            )
+
+            Spacer(modifier = Modifier.padding(5.dp))
+
             Text(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp)) {
-                        append("Boutique ")
-                    }
-                    append("Fishbotica")
-                },
-                modifier = Modifier.padding(10.dp),
-                color = Color.Black,
+                text = "Nos produits",
                 fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .align(Alignment.Start)
             )
 
             Spacer(modifier = Modifier.padding(5.dp))
@@ -77,6 +112,7 @@ fun shop() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 20.dp, end = 20.dp)
+                    .size(356.dp, 50.dp)
                     .border(
                         1.dp,
                         Color(0xFFC9CEDA),
@@ -106,7 +142,7 @@ fun shop() {
                         Image(
                             painter = painterResource(id = R.drawable.setting),
                             contentDescription = "",
-                            modifier = Modifier.size(15.dp)
+                            modifier = Modifier.size(50.dp)
                         )
 
                     }
@@ -116,40 +152,9 @@ fun shop() {
                 },
                 singleLine = true,
             )
-
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                // Image header poisson
-                Image(
-                    painter = painterResource(id = R.drawable.headeraqua),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(356.dp, 145.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.FillWidth // Étire l'image pour qu'elle prenne toute la largeur
-                )
-            }
-
-
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 30.dp, top = 280.dp),
-            horizontalAlignment = Alignment.Start
-        ) {
-            Row(horizontalArrangement = Arrangement.Start) {
-                Text(
-                    text = "Les produits",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(top = 10.dp)
-                )
-            }
-        }
-        
-        LazyColumn(modifier = Modifier.padding(top = 330.dp)) {
+        LazyColumn(modifier = Modifier.padding(top = 335.dp)) {
             items(articles.count()) {
                 val article = articles[it]
 
