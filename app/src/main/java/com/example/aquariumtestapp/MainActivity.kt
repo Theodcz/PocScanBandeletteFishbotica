@@ -42,6 +42,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationComponent(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "bienvenue") {
+
         composable("bienvenue") {
             PageBienvenue(navController = navController)
         }
@@ -60,9 +61,6 @@ fun NavigationComponent(navController: NavHostController) {
         composable("login") {
             LoginScreen(navController = navController)
         }
-        /*composable("listAquarium") {
-            listAqua(navController)
-        }*/
     }
 }
 

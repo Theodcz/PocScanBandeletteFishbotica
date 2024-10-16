@@ -35,9 +35,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.data.DataViewModel
-import com.example.aquariumtestapp.utils.LoadingComponent
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.utils.LoadingComponent
 @Composable
 fun listAqua(
     bottomSheetContinue : () -> Unit,
@@ -146,6 +146,8 @@ fun listAqua(
                 is UserState.Error -> {
                     Text("Aucun aquarium trouvé", fontSize = 20.sp, modifier = Modifier.padding(16.dp))
                 }
+
+                else -> {}
             }
 
             Button(

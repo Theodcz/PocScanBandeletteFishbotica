@@ -188,6 +188,7 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
                             )
                         }
                     })
+            else -> {}
         }
     }
 }

@@ -30,12 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.utils.LoadingComponent
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
@@ -44,12 +44,17 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
     var isLoading by remember { mutableStateOf(true) }
     var hasNavigated by remember { mutableStateOf(false) } // Variable pour suivre la navigation
 
+    println("userState Bienvenue : $userState")
+
     LaunchedEffect(Unit) {
-        viewModel.isUserLoggedIn(context)
+        if (!hasNavigated) {
+            viewModel.isUserLoggedIn(context)
+        }
     }
 
     when (userState) {
         is UserState.Loading -> {
+            println("Bienvenue Loading")
             LoadingComponent()
         }
 
@@ -67,6 +72,8 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
         is UserState.Error -> {
             isLoading = false
         }
+
+        else -> {}
     }
 
     if (!isLoading && !hasNavigated) {

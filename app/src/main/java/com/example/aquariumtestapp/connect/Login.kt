@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,11 +30,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.utils.LoadingComponent
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,6 +52,10 @@ fun LoginScreen(
     var currentUserState by remember { mutableStateOf("") }
     println("currentUserState: $currentUserState")
     println("userState: $userState")
+
+    LaunchedEffect(Unit) {
+        viewModel.clearUserState()
+    }
 
     Column(
         modifier = Modifier
@@ -171,6 +177,10 @@ fun LoginScreen(
         }
 
         when (userState) {
+            is UserState.Loading -> {
+                LoadingComponent()
+            }
+
             is UserState.Success -> {
                 val message = (userState as UserState.Success).message
                 currentUserState = message
@@ -185,8 +195,9 @@ fun LoginScreen(
         }
 
         if (currentUserState.isNotEmpty() && userState is UserState.Error) {
+            val text = currentUserState
             Text(
-                text = "Erreur : $currentUserState",
+                text = "Erreur : $text",
                 style = TextStyle(
                     color = Color.Red,
                     fontSize = 13.sp

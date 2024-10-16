@@ -25,6 +25,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 class SupabaseViewModel : ViewModel() {
+
     private val _userState = mutableStateOf<UserState>(UserState.Loading)
     val userState: State<UserState> = _userState
 
@@ -35,6 +36,7 @@ class SupabaseViewModel : ViewModel() {
         userPassword: String,
         navController: NavController,
     ) {
+        println("sign up")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
@@ -75,6 +77,7 @@ class SupabaseViewModel : ViewModel() {
         userPassword: String,
         navController: NavController,
     ) {
+        println("login")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
@@ -97,6 +100,7 @@ class SupabaseViewModel : ViewModel() {
         context: Context,
         navController: NavController
     ) {
+        println("logout")
         val sharedPref = SharedPreferenceHelper(context)
         viewModelScope.launch {
             try {
@@ -121,6 +125,7 @@ class SupabaseViewModel : ViewModel() {
     }
 
     fun isUserLoggedIn(context: Context) {
+        println("isUserLoggedIn")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
@@ -150,6 +155,8 @@ class SupabaseViewModel : ViewModel() {
     fun getAquarium() {
         val user = client.auth.currentUserOrNull()
         val id = user?.id
+
+        println("get aqua")
 
         viewModelScope.launch {
             try {
@@ -217,5 +224,9 @@ class SupabaseViewModel : ViewModel() {
                 _userState.value = UserState.Error("Error: ${e.message}")
             }
         }
+    }
+
+    fun clearUserState() {
+        _userState.value = UserState.Idle
     }
 }
