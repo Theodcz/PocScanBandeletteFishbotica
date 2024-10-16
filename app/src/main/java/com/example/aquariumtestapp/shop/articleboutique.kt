@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.R
 
 @Composable
-fun ArticleBoutique(image: Int, name: String, price: Double) {
+fun ArticleBoutique(image: String?, name: String, price: Double) {
     val context = LocalContext.current
 
     Box(
@@ -46,7 +46,7 @@ fun ArticleBoutique(image: Int, name: String, price: Double) {
                     .background(color = Color(0xFFF4F5F7))
                     .size(105.dp, 86.dp)
             ) {
-                Image(painter = painterResource(id = image), contentDescription = "",
+                Image(painter = painterResource(id = R.drawable.fondpoisson), contentDescription = "",
                     modifier = Modifier.size(105.dp, 86.dp))
             }
 

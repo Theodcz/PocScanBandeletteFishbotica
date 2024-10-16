@@ -13,11 +13,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,18 +36,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.R
 
 @Composable
-fun shop() {
+fun shop(viewModel: ViewModelArticle = viewModel()) {
 
     val context = LocalContext.current
 
-    val articles = listOf(
-        Article(R.drawable.aquatest, "Bandelettes FastScan", 8.99),
-        Article(R.drawable.aquatest, "Substrat Sol", 49.00),
-        Article(R.drawable.aquatest, "Flacon pH", 59.00)
-    )
+    val articleData by viewModel.articleData.collectAsState() // aquariumData est maintenant de type List<AquariumResponse>?
+
+    LaunchedEffect(Unit)
+    {
+        viewModel.getArticle()
+    }
 
     Box(
         contentAlignment = Alignment.TopCenter,
@@ -116,7 +122,7 @@ fun shop() {
                     .border(
                         1.dp,
                         Color(0xFFC9CEDA),
-                        shape = RoundedCornerShape(3.dp),
+                        shape = RoundedCornerShape(8.dp),
                     ),
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White, // Rend le fond transparent
@@ -154,24 +160,10 @@ fun shop() {
             )
         }
 
-        LazyColumn(modifier = Modifier.padding(top = 335.dp)) {
-            items(articles.count()) {
-                val article = articles[it]
-
-                ArticleBoutique(
-                    image = article.image,
-                    name = article.name,
-                    price = article.price
-                )
-                Spacer(modifier = Modifier.padding(10.dp))
+        LazyColumn(content = {
+            items(articleData ?: emptyList()) { article ->
+                ArticleBoutique(article.imageArticle, article.nomArticle, article.prixArticle)
             }
-        }
+        })
     }
 }
-
-
-data class Article(
-    val image: Int,
-    val name: String,
-    val price: Double
-)
