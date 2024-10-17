@@ -22,12 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
@@ -44,10 +46,9 @@ import com.example.aquariumtestapp.utils.LoadingComponent
 @Composable
 fun shop(viewModel: ViewModelArticle = viewModel()) {
 
-    val context = LocalContext.current
-
     val articleData by viewModel.articleData.collectAsState() // aquariumData est maintenant de type List<AquariumResponse>?
     val userState by viewModel.userState
+    var searchText by remember { mutableStateOf("") }
 
     LaunchedEffect(Unit)
     {
@@ -133,7 +134,7 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
                     focusedIndicatorColor = Color.Transparent,  // Supprime la ligne lors du focus
                     unfocusedIndicatorColor = Color.Transparent // Supprime la ligne sans focus
                 ),
-                value = "",
+                value = searchText,
                 placeholder = {
                     Row(
                         modifier = Modifier.padding(0.dp),
@@ -157,7 +158,7 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
                     }
                 },
                 onValueChange = {
-
+                    searchText = it // Met à jour l'état avec le texte de recherche
                 },
                 singleLine = true,
             )
@@ -176,18 +177,25 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
                 )
             }
 
-            is UserState.Success ->
-                LazyColumn(modifier = Modifier
-                    .padding(top = 330.dp),
-                    content = {
-                        items(articleData ?: emptyList()) { article ->
-                            ArticleBoutique(
-                                article.imageArticle,
-                                article.nomArticle,
-                                article.prixArticle
-                            )
-                        }
-                    })
+            is UserState.Success -> {
+                // Filtrer les articles selon le texte de recherche
+                val filteredArticles = if (searchText.isNotEmpty()) {
+                    articleData?.filter { it.nomArticle.contains(searchText, ignoreCase = true) }
+                } else {
+                    articleData
+                }
+
+                LazyColumn(modifier = Modifier.padding(top = 330.dp)) {
+                    items(filteredArticles ?: emptyList()) { article ->
+                        ArticleBoutique(
+                            article.imageArticle,
+                            article.nomArticle,
+                            article.prixArticle
+                        )
+                    }
+                }
+            }
+
             else -> {}
         }
     }
