@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.dokar.sheets.PeekHeight
 import com.dokar.sheets.m3.BottomSheet
 import com.dokar.sheets.rememberBottomSheetState
-import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.home.component.bottomSheet.aqua.listAqua
 import com.example.aquariumtestapp.home.component.bottomSheet.addAqua
@@ -33,13 +32,17 @@ import com.example.aquariumtestapp.home.component.exploreTask
 import com.example.aquariumtestapp.home.component.fastScan
 import com.example.aquariumtestapp.home.component.mesure
 import com.example.aquariumtestapp.home.component.nextTest
+import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun home (
-    dataViewModel : DataViewModel
+    storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel,
+    selectAquariumViewModel: SelectAquariumViewModel
 ) {
+
+
     val state = rememberBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
     val isAddingAqua = remember { mutableStateOf("listAqua") }  // État pour gérer le contenu du BottomSheet
@@ -66,7 +69,6 @@ fun home (
             .fillMaxSize()
             .background(colorResource(R.color.whiteBackground))
             .padding(top = 16.dp)
-
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -74,7 +76,7 @@ fun home (
             modifier = Modifier.fillMaxSize()
         ) {
             exploreTask()
-            nextTest ( {manageState()}, dataViewModel )
+            nextTest ( {manageState()}, storeSelectedAquariumViewModel )
             fastScan()
             Spacer(modifier = Modifier.height(16.dp))
             mesure()
@@ -87,13 +89,10 @@ fun home (
                 backgroundColor = Color.White,
                 modifier = Modifier
                     .fillMaxHeight(0.65f)
-
-
-
             ) {
                 when (isAddingAqua.value) {
                     "listAqua" -> {
-                        listAqua({manageNavBottomBar("Continue")},{manageNavBottomBar("addAqua")},dataViewModel)
+                        listAqua({manageNavBottomBar("Continue")},{manageNavBottomBar("addAqua")},selectAquariumViewModel,storeSelectedAquariumViewModel)
                     }
                     "addAqua" -> {
                         addAqua ({manageNavBottomBar("listAqua")}, {manageNavBottomBar("aquaIsAdd")})

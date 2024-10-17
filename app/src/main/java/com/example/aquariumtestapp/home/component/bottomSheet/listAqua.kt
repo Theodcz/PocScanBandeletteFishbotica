@@ -24,7 +24,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,25 +32,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.aquariumtestapp.DataViewModel
-import com.example.aquariumtestapp.LoadingComponent
-import com.example.aquariumtestapp.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
+import com.example.aquariumtestapp.utils.LoadingComponent
 @Composable
 fun listAqua(
     bottomSheetContinue : () -> Unit,
     bottomSheetAddAqua : () -> Unit,
-    dataViewModel : DataViewModel,
-    viewModel: SupabaseViewModel = viewModel(),
+    selectAquariumViewModel: SelectAquariumViewModel,
+    storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel
+
 ){
-    val aquariumData by viewModel.aquariumData.collectAsState() // aquariumData est maintenant de type List<AquariumResponse>?
-    val userState by viewModel.userState
-    val selectedAquariumId by dataViewModel.aquariumSelected.collectAsState()
+    val aquariumData by selectAquariumViewModel.aquariumData
+    val userState by selectAquariumViewModel.userState
+
+    //val context = LocalContext.current
+    //val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
+
 
     LaunchedEffect(Unit)
     {
-        viewModel.getAquarium()
+        selectAquariumViewModel.getAquarium()
     }
 
     Box(
@@ -77,9 +79,7 @@ fun listAqua(
                 is UserState.Loading -> {
                     LoadingComponent()
                 }
-
                 is UserState.Success -> {
-
                     LazyColumn(
                         verticalArrangement = Arrangement.Top,
                         horizontalAlignment = Alignment.Start,
@@ -89,7 +89,7 @@ fun listAqua(
                     ) {
                         items(aquariumData  ?: emptyList() ) { aquarium ->
 
-                            val isSelected = selectedAquariumId == aquarium.aquariumId
+                            val isSelected = storeSelectedAquariumViewModel.selectedAquarium.value == aquarium.aquariumId
 
                             val backgroundColor =
                                 if (isSelected) Color(0xFF63A8E7) else Color(0xFFF8F8F8)
@@ -102,7 +102,16 @@ fun listAqua(
                                     .padding(7.dp)
                                     .clickable {
                                         //selectedAquariumId = aquarium.aquariumId
-                                        dataViewModel.setAquariumSelected(aquarium.aquariumId, aquarium.name)
+                                     //   selectAquariumViewModel.setAquariumSelected(aquarium.aquariumId, aquarium.name)
+                                        storeSelectedAquariumViewModel.saveSelectedAquarium(aquarium.aquariumId, aquarium.name)
+                                        storeSelectedAquariumViewModel.getSelectedAquariumId()
+                                        storeSelectedAquariumViewModel.getSelectedAquariumName()
+                                        storeSelectedAquariumViewModel.selectedAquarium.value?.let {
+                                            storeSelectedAquariumViewModel.deleteSelectedAquarium(
+                                                it
+                                            )
+                                        }
+                                      //  println("Aquarium selected: ${aquarium.aquariumId} ${aquarium.name}")
                                     }
                                     .clip(RoundedCornerShape(10.dp))
                                     .border(1.dp, Color(0x176D6D6D))
@@ -126,7 +135,7 @@ fun listAqua(
                                         .clip(RoundedCornerShape(10.dp))
                                         .clickable {
 
-                                            viewModel.deleteAquarium(aquarium.aquariumId)
+                                            selectAquariumViewModel.deleteAquarium(aquarium.aquariumId)
                                         }
                                         .padding(3.dp)
                                 ) {

@@ -1,4 +1,3 @@
-
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -40,7 +39,8 @@ fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
         ) {
             Button(
                 onClick = { onResult(false) },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)) {
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
+            ) {
                 Icon(
                     imageVector = Icons.Default.Close, // Icône de coche
                     contentDescription = "Valider",
@@ -48,10 +48,10 @@ fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
                 )
             }
             Button(
-                onClick = { onResult(true)},
+                onClick = { onResult(true) },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
 
-            ) {
+                ) {
                 Icon(
                     imageVector = Icons.Default.Check, // Icône de coche
                     contentDescription = "Valider",

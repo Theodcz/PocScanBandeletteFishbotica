@@ -26,18 +26,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.aquariumtestapp.DataViewModel
 import androidx.navigation.NavHostController
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
 import com.example.aquariumtestapp.history.history
 import com.example.aquariumtestapp.home.home
+import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.ui.theme.blue
 import com.example.aquariumtestapp.ui.theme.gray
@@ -48,7 +44,8 @@ fun bottomAppBar(navController: NavHostController) {
     val navigationController = rememberNavController()
     val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
-    val dataViewModel : DataViewModel = viewModel();
+    val selectAquariumViewModel : SelectAquariumViewModel = viewModel();
+    val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -211,7 +208,7 @@ fun bottomAppBar(navController: NavHostController) {
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { home(dataViewModel) }
+            composable(Screens.HomeScreen.screen) { home(storeSelectedAquariumViewModel,selectAquariumViewModel,) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account(navController = navController) }
