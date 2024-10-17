@@ -72,8 +72,15 @@ fun shop(viewModel: ViewModelArticle = viewModel()) {
             Box(
                 modifier = Modifier
                     .size(356.dp, 55.dp)
-                    .border(1.dp, Color.White, shape = RoundedCornerShape(40.dp))
-                    .background(Color.White, shape = RoundedCornerShape(40.dp)),
+                    .background(
+                        Color.White,
+                        shape = RoundedCornerShape(
+                            topStart = 30.dp,
+                            topEnd = 30.dp,
+                            bottomStart = 16.dp,
+                            bottomEnd = 16.dp
+                        )
+                    ),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

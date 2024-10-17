@@ -57,13 +57,12 @@ fun ArticleBoutique(image: String?, name: String, price: Double) {
                 )
             }
 
-            Column(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+            Column(modifier = Modifier.padding(start = 15.dp, top = 5.dp)) {
                 Text(
                     text = name, fontSize = 14.sp, fontWeight = FontWeight.SemiBold
                 )
 
                 Row(
-                    modifier = Modifier.padding(top = 5.dp),
                     verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                 ) {
                     Text(
