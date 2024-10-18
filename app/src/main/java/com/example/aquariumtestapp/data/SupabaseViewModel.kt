@@ -141,6 +141,8 @@ class SupabaseViewModel : ViewModel() {
                     saveToken(context)
                     _userState.value = UserState.Success("User already logged in!")
                 }
+            } catch (e: IllegalStateException) {
+                _userState.value = UserState.Error("No refresh token found in current session.")
             } catch (e: RestException) {
                 _userState.value = UserState.Error(e.error)
             }
