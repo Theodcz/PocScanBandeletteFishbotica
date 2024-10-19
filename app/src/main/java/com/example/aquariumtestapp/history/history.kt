@@ -36,7 +36,7 @@ fun history() {
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.whiteBackground))
-            .padding(top = 16.dp)
+            .padding(top = 17.dp)
     ) {
         Column(
             modifier = Modifier
@@ -84,7 +84,7 @@ fun history() {
                     )
                     .size(363.dp, 321.dp),
             ) {
-                Column (
+                Column(
                     modifier = Modifier.padding(15.dp)
                 ) {
                     Text(
@@ -103,7 +103,11 @@ fun history() {
                         fontSize = 18.sp,
                     )
 
-                    Text(text = "Tendances de vos paramètres chimiques", color = Color(0xFF696969))
+                    Text(
+                        text = "Tendances de vos paramètres chimiques",
+                        color = Color(0xFF696969),
+                        fontSize = 14.sp
+                    )
 
                     Spacer(modifier = Modifier.size(10.dp))
 
@@ -125,8 +129,7 @@ fun history() {
                         Text(text = "Jun", color = Color.Black, fontSize = 10.sp)
                     }
 
-                    Spacer(modifier = Modifier.size(10.dp))
-
+                    Spacer(modifier = Modifier.size(11.dp))
                     CustomGridChart(
                         seriesDataList = listOf(
                             SeriesData(
@@ -175,17 +178,20 @@ fun history() {
                             SeriesData(points = emptyList(), color = Color(0xFFFFA5CB)), // Nitrate
                         )
                     )
+
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun CustomGridChart(seriesDataList: List<SeriesData>) {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .size(135.dp)
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(135.dp)
     ) {
         val width = size.width
         val height = size.height
@@ -292,6 +298,7 @@ fun CustomGridChart(seriesDataList: List<SeriesData>) {
     }
 }
 
+
 @Composable
 fun Legend(seriesDataList: List<SeriesData>) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
@@ -303,17 +310,17 @@ fun Legend(seriesDataList: List<SeriesData>) {
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 // Ajouter le texte
-                Text(text = when (seriesData.color) {
-                    Color(0xFF7987FF) -> "PH"
-                    Color(0xFFE697FF) -> "GH"
-                    Color(0xFFFFA5CB) -> "KH"
-                    else -> ""
-                }, fontSize = 12.sp)
+                Text(
+                    text = when (seriesData.color) {
+                        Color(0xFF7987FF) -> "PH"
+                        Color(0xFFE697FF) -> "GH"
+                        Color(0xFFFFA5CB) -> "KH"
+                        else -> ""
+                    }, fontSize = 12.sp
+                )
             }
         }
     }
 }
 
 data class SeriesData(val points: List<Pair<Float, Float>>, val color: Color)
-
-
