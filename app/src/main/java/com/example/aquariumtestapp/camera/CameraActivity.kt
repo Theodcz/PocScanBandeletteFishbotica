@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -67,6 +68,7 @@ class CameraActivity : ComponentActivity() {
         }
     }
 
+
     private fun openAppSettings() {
         finish()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -89,7 +91,11 @@ class CameraActivity : ComponentActivity() {
                     executor = cameraExecutor,
                     onImageCaptured = { uri ->
                         handleImageCapture(uri) // Envoie l'URI de l'image
+
                         cameraViewModel.capturedImageUri.value = uri // Mettez à jour l'URI capturé
+
+                        cameraViewModel.uploadJpgImage()
+
                     },
                     onError = { Log.e("kilo", "View error:", it) },
                     onBackPressed = {

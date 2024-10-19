@@ -2,6 +2,7 @@ package com.example.aquariumtestapp.connect
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.aquariumtestapp.utils.LoadingComponent
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.utils.LoadingComponent
 
 @Composable 
 fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
@@ -74,9 +75,9 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 160.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.aquarium),
@@ -85,18 +86,17 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
                     .size(272.dp, 260.dp)
             )
             Row(
-                modifier = Modifier.padding(top = 10.dp)
+                modifier = Modifier.padding(top = 10.dp, bottom = 20.dp)
             ) {
                 Box(
                     modifier = Modifier
+                        .padding(end = 5.dp)
                         .size(13.dp) // Taille du cercle (diamètre)
                         .background(
                             color = Color(0xFF0B7FB5),
                             shape = CircleShape
                         ) // Couleur et forme
                 )
-
-                Spacer(modifier = Modifier.padding(5.dp))
 
                 Box(
                     modifier = Modifier
@@ -107,16 +107,12 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
                         ) // Couleur et forme
                 )
             }
-
-            Spacer(modifier = Modifier.padding(20.dp))
-
             Text(
                 text = "Bienvenue chez FISHBOTICA",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
-            Spacer(modifier = Modifier.padding(1.dp))
 
             Text(
                 text = "Explorez une expérience unique de gestion, " +
@@ -124,10 +120,11 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
                         "pour simplifier votre aventure d'aquariophile.",
                 fontSize = 13.sp,
                 modifier = Modifier
-                    .padding(top = 15.dp, start = 90.dp, end = 90.dp)
+                    .padding(top = 15.dp, start = 55.dp, end = 55.dp)
                     .fillMaxWidth(), // Prend toute la largeur de la page
                 textAlign = TextAlign.Center,
-                color = Color.Black.copy(alpha = 0.74f)
+                color = Color.Black.copy(alpha = 0.74f),
+                lineHeight = 16.sp
             )
 
             Spacer(modifier = Modifier.padding(20.dp))

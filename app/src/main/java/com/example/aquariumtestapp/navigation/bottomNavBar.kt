@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -23,10 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
@@ -49,7 +50,8 @@ fun bottomAppBar(navController: NavHostController) {
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                containerColor = white
+                containerColor = white,
+                modifier = Modifier.height(70.dp)
             )
             {
 

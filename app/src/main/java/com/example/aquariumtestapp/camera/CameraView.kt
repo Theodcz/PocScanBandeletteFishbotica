@@ -32,6 +32,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale

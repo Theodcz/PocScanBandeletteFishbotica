@@ -18,7 +18,10 @@ import com.example.aquariumtestapp.connect.PageLoginAndConnect
 import com.example.aquariumtestapp.connect.Register
 import com.example.aquariumtestapp.navigation.bottomAppBar
 import com.example.aquariumtestapp.ui.theme.AquariumTestAppTheme
+
 class MainActivity : ComponentActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AquariumTestApp)
