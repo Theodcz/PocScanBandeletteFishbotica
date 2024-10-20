@@ -2,6 +2,7 @@ package com.example.aquariumtestapp.data.repository
 
 import android.util.Log
 import com.example.aquariumtestapp.data.model.ParameterAquarium
+import com.example.aquariumtestapp.data.model.ParameterAquariumGetBdd
 import com.example.aquariumtestapp.data.network.SupabaseClient
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -32,19 +33,19 @@ class ParameterAquariumRepository {
     }
 
 
-    suspend fun getParameterAquarium(idAquarium: Int): List<ParameterAquarium> {
+    suspend fun getParameterAquarium(idAquarium: Int): List<ParameterAquariumGetBdd> {
 
         try {
-            val response = SupabaseClient.client.postgrest["ParameterAquarium"].select {
+            val response = SupabaseClient.client.postgrest["ChemicalParameter"].select {
                 filter {
                     eq("aquariumId", idAquarium)
                 }
             }
-            val listType = object : TypeToken<List<ParameterAquarium>>() {}.type
-            val parameterList: List<ParameterAquarium> = Gson().fromJson(response.data, listType)
-            Log.e("kilo","error getParameterAquarium : " + response.data.toString())
+            val listType = object : TypeToken<List<ParameterAquariumGetBdd>>() {}.type
+            val parameterList: List<ParameterAquariumGetBdd> = Gson().fromJson(response.data, listType)
+            Log.e("kilo"," getParameterAquarium : " + response.data.toString())
             return parameterList.map {
-                ParameterAquarium(it.aquariumId, it.CL2, it.GH, it.KH, it.NO2, it.NO3, it.PH, it.TA)
+                ParameterAquariumGetBdd(it.aquariumId,it.timestamp, it.CL2, it.GH, it.KH, it.NO2, it.NO3, it.PH, it.TA)
             }
 
 

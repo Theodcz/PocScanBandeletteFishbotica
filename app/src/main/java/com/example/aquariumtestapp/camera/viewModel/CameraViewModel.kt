@@ -22,7 +22,7 @@ class CameraViewModel : ViewModel() {
 
     private val ParameterAquariumViewModel = ParameterAquariumViewModel()
 
-    fun uploadJpgImage(selectedAquariumId: Int, imageUri : Uri) {
+    fun uploadJpgImage(selectedAquariumId: Int, imageUri : Uri, onValidPost: (Boolean) -> Unit) {
         val imagePath = capturedImageUri.value?.path
 
 
@@ -43,7 +43,7 @@ class CameraViewModel : ViewModel() {
                 }
 
                 if (chemicalParameters != null) {
-                    ParameterAquariumViewModel.postParameterAquarium(chemicalParameters)
+                    ParameterAquariumViewModel.postParameterAquarium(chemicalParameters, onValidPost)
                 }
 
             } else {

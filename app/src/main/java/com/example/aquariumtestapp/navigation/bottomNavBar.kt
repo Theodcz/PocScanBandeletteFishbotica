@@ -1,6 +1,7 @@
 package com.example.aquariumtestapp.navigation
 
 import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,8 +48,6 @@ fun bottomAppBar(navController: NavHostController) {
     val selected = remember { mutableStateOf("home") }
     val selectAquariumViewModel : SelectAquariumViewModel = viewModel();
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-
-
 
     Scaffold(
         bottomBar = {
@@ -193,7 +192,14 @@ fun bottomAppBar(navController: NavHostController) {
             androidx.compose.material3.FloatingActionButton(
                 shape = CircleShape,
                 onClick = {
-                    context.startActivity(Intent(context, CameraActivity::class.java))
+                    if (storeSelectedAquariumViewModel.selectedAquarium.value != null)
+                    {
+                        context.startActivity(Intent(context, CameraActivity::class.java))
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please select an aquarium first", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 containerColor = white, // Couleur de ton choix
                 modifier = Modifier.offset(x=0.dp, y=50.dp)

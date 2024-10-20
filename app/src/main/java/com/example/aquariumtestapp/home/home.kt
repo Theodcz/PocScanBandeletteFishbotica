@@ -11,19 +11,20 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.dokar.sheets.PeekHeight
 import com.dokar.sheets.m3.BottomSheet
 import com.dokar.sheets.rememberBottomSheetState
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.home.component.bottomSheet.addAqua
 import com.example.aquariumtestapp.home.component.bottomSheet.aquaIsAdd
 import com.example.aquariumtestapp.home.component.bottomSheet.listAqua
@@ -40,8 +41,14 @@ fun home (
     storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel,
     selectAquariumViewModel: SelectAquariumViewModel
 ) {
+    val parameterAquariumViewModel = ParameterAquariumViewModel()
+    val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
 
-
+    LaunchedEffect(Unit) { // dans le cas ou l'utilisateur se connecte et que l'aquarium est déjà sélectionné
+        selectedAquarium?.let { aquariumId ->
+            parameterAquariumViewModel.getParameterAquarium(aquariumId)
+        }
+    }
     val state = rememberBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
     val isAddingAqua = remember { mutableStateOf("listAqua") }  // État pour gérer le contenu du BottomSheet

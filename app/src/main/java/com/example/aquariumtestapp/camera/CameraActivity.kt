@@ -145,14 +145,18 @@ class CameraActivity : ComponentActivity() {
                 }
             }
             cameraViewModel.capturedImageUri.value?.let { uri ->
-                CapturedImageView(uri) { isAccepted ->
-                    if (isAccepted) {
-                        // ajouter le post
-                        Toast.makeText(this, "Image validated!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        cameraViewModel.capturedImageUri.value = null // Réinitialise l'URI
-                    }
-                }
+                CapturedImageView(uri,
+                    onResult = { isAccepted ->
+                        if (isAccepted) {
+                            Toast.makeText(this, "Image validated!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            cameraViewModel.capturedImageUri.value = null // Réinitialise l'URI
+                        }
+                    },
+                    onValidPost = {
+                        cameraViewModel.capturedImageUri.value = null
+                        finish()
+                })
             }
         }
     }

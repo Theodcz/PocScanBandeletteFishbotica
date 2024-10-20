@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import com.example.aquariumtestapp.utils.LoadingComponent
@@ -46,10 +47,7 @@ fun listAqua(
 ){
     val aquariumData by selectAquariumViewModel.aquariumData
     val userState by selectAquariumViewModel.userState
-
-    //val context = LocalContext.current
-    //val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-
+    val parameterAquariumViewModel = ParameterAquariumViewModel()
 
     LaunchedEffect(Unit)
     {
@@ -111,6 +109,7 @@ fun listAqua(
                                                 it
                                             )
                                         }
+                                        parameterAquariumViewModel.getParameterAquarium(aquarium.aquariumId)
                                       //  println("Aquarium selected: ${aquarium.aquariumId} ${aquarium.name}")
                                     }
                                     .clip(RoundedCornerShape(10.dp))

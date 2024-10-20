@@ -1,5 +1,5 @@
+
 import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,7 @@ import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
 import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 
 @Composable
-fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
+fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit, onValidPost: (Boolean) -> Unit) {
     val context = LocalContext.current
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
     val cameraViewModel = CameraViewModel()
@@ -58,11 +58,7 @@ fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
                     val selectedAquarium = storeSelectedAquariumViewModel.selectedAquarium.value
 
                     if (selectedAquarium != null) {
-                        cameraViewModel.uploadJpgImage(selectedAquarium.toInt(), imageUri)
-                    }
-                    else {
-                        cameraViewModel.uploadJpgImage(18, imageUri)
-                        Log.e("kilo", "No selected aquarium found. Defaulting to 1")
+                        cameraViewModel.uploadJpgImage(selectedAquarium.toInt(), imageUri, onValidPost)
                     }},
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
 

@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.Theme_AquariumTestApp)
-
         super.onCreate(savedInstanceState)
         setContent {
             AquariumTestAppTheme {
