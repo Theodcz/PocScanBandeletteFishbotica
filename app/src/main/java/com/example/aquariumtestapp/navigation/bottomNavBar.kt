@@ -47,6 +47,9 @@ fun bottomAppBar(navController: NavHostController) {
     val selected = remember { mutableStateOf("home") }
     val selectAquariumViewModel : SelectAquariumViewModel = viewModel();
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
+
+
+
     Scaffold(
         bottomBar = {
             BottomAppBar(

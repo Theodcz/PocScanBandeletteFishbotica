@@ -1,6 +1,6 @@
 package com.example.aquariumtestapp.camera.retrofit
 
-import com.example.aquariumtestapp.data.model.UploadResponse
+import com.example.aquariumtestapp.data.model.ParameterAquariumGet
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart
@@ -13,5 +13,5 @@ interface ApiService {
     @POST("upload_image")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part
-    ): Response<UploadResponse>
+    ): Response<ParameterAquariumGet>
 }

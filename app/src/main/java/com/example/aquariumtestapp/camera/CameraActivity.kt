@@ -83,7 +83,6 @@ class CameraActivity : ComponentActivity() {
         cameraViewModel.outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
         requestCameraPermission()
-
         setContent {
             if (shouldShowCamera.value) { // si la permission de la caméra est accordé alors on affiche la caméra
                 CameraView(
@@ -94,7 +93,13 @@ class CameraActivity : ComponentActivity() {
 
                         cameraViewModel.capturedImageUri.value = uri // Mettez à jour l'URI capturé
 
-                        cameraViewModel.uploadJpgImage()
+                        /*if (selectedAquarium != null) {
+                            cameraViewModel.uploadJpgImage(selectedAquarium.toInt())
+                        }
+                        else {
+                            cameraViewModel.uploadJpgImage(18)
+                            Log.e("kilo", "No selected aquarium found. Defaulting to 1")
+                        }*/
 
                     },
                     onError = { Log.e("kilo", "View error:", it) },

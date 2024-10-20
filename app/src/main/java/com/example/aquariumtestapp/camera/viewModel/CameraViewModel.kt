@@ -7,6 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aquariumtestapp.camera.repository.CameraRepository
+import com.example.aquariumtestapp.data.model.ParameterAquarium
+import com.example.aquariumtestapp.data.model.ParameterAquariumGet
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -17,31 +20,50 @@ class CameraViewModel : ViewModel() {
 
     private val repository = CameraRepository()
 
+    private val ParameterAquariumViewModel = ParameterAquariumViewModel()
 
-    /*
-    fun uploadImage(file: File, onResult: (Boolean, String?) -> Unit) {
-        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        val body = MultipartBody.Part.createFormData("image", /*file.name*/
-            file.name, requestFile)
-
-        repository.uploadImage(body) { success, message ->
-            onResult(success, message)
-        }
-    }*/
-
-    fun uploadJpgImage() {
+    fun uploadJpgImage(selectedAquariumId: Int, imageUri : Uri) {
         val imagePath = capturedImageUri.value?.path
 
-        if (imagePath != null) {
-            val imageFile = File(imagePath)
+
+        fun onResult(success: Boolean, waterTestResults: ParameterAquariumGet?) {
+            if (success) {
+                //Log.e("kilo", "Upload success, results: $waterTestResults")
+                val chemicalParameters = waterTestResults?.let {
+                    ParameterAquarium(
+                        PH = it.PH,
+                        KH = waterTestResults.KH,
+                        TA = waterTestResults.TA,
+                        GH = waterTestResults.GH,
+                        CL2 = waterTestResults.CL2,
+                        NO2 = waterTestResults.NO2,
+                        NO3 = waterTestResults.NO3,
+                        aquariumId = selectedAquariumId,
+                    )
+                }
+
+                if (chemicalParameters != null) {
+                    ParameterAquariumViewModel.postParameterAquarium(chemicalParameters)
+                }
+
+            } else {
+                Log.e("kilo", "Upload failed")
+            }
+        }
+
+
+        val imageUriPath = imageUri.path
+        if (imageUriPath != null) {
+            val imageFile = File(imageUriPath)
             viewModelScope.launch {
-                repository.uploadJpgImage(imageFile)
+                repository.uploadJpgImage(imageFile, ::onResult)
             }
 
         }
         else {
             Log.e("kilo", "No image URI found.")
         }
+
     }
 
 

@@ -1,12 +1,12 @@
-package com.example.aquariumtestapp.camera.viewModel
+package com.example.aquariumtestapp.data.viewModel
 
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aquariumtestapp.camera.repository.ParameterAquariumRepository
 import com.example.aquariumtestapp.data.model.ParameterAquarium
+import com.example.aquariumtestapp.data.repository.ParameterAquariumRepository
 import kotlinx.coroutines.launch
 
 class ParameterAquariumViewModel : ViewModel() {
@@ -22,7 +22,7 @@ class ParameterAquariumViewModel : ViewModel() {
                 repository.postParameterAquarium(parameter)
 
             } catch (e: Exception) {
-                Log.e("kilo","Error postParameterAquarium : ${e.message}")
+                Log.e("kilo","Error postParameterAquarium view model : ${e.message}")
             }
         }
     }
