@@ -6,6 +6,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.padding
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -29,6 +40,10 @@ import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.camera.CameraActivity
 import com.example.aquariumtestapp.ui.theme.gray
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 
 @Composable
 fun mesure () {
@@ -74,7 +89,15 @@ fun mesure () {
 
             Button(
                 onClick = {
-                    context.startActivity(Intent(context, CameraActivity::class.java))
+                    val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
+                    if (storeSelectedAquariumViewModel.selectedAquarium.value != null)
+                    {
+                        context.startActivity(Intent(context, CameraActivity::class.java))
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please select an aquarium first", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 contentPadding = PaddingValues(end = 15.dp, start = 15.dp),
                 colors = buttonColors(containerColor = Color(0xFF63A7E6)),

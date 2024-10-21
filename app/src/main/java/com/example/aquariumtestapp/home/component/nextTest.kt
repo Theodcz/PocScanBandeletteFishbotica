@@ -35,16 +35,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.DataViewModel
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 
 @Composable
 fun nextTest (
     state : () -> Unit,
-    dataViewModel : DataViewModel
+
+    storeSelectedAquariumViewModel : StoreSelectedAquariumViewModel,
 ) {
-    val selectedAquariumId by dataViewModel.aquariumSelected.collectAsState()
-
-    LaunchedEffect(selectedAquariumId) {
-
+    storeSelectedAquariumViewModel.getSelectedAquariumId()
+    storeSelectedAquariumViewModel.getSelectedAquariumName()
+    var name = ""
+    LaunchedEffect(storeSelectedAquariumViewModel.aquariumName.value) {
+        println("aquariumNamee: ${storeSelectedAquariumViewModel.aquariumName.value}")
+        name = storeSelectedAquariumViewModel.aquariumName.value
+       // println("name: " )
     }
 
     Surface(
@@ -109,9 +114,9 @@ fun nextTest (
                     close()
                 }
                 val gradientBrush = Brush.linearGradient(
-                    colors = listOf(Color(0x72165A99), Color(0x72165A99)), // Définir les couleurs du dégradé
-                    start = Offset(0f, waveHeight1), // Début du dégradé
-                    end = Offset(size.width, waveHeight1) // Fin du dégradé
+                    colors = listOf(Color(0x72165A99), Color(0x72165A99)),
+                    start = Offset(0f, waveHeight1),
+                    end = Offset(size.width, waveHeight1)
                 )
 
                 drawPath(path2, brush =gradientBrush, style = Fill)
@@ -163,7 +168,7 @@ fun nextTest (
                             horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                             Text(
-                                dataViewModel.aquariumName.value,
+                                storeSelectedAquariumViewModel.aquariumName.value,
                                 color = Color.Black,
                                 fontSize = 12.sp,
                                 modifier = Modifier.padding(end = 5.dp)

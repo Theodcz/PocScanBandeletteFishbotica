@@ -20,9 +20,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 
+
+import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
+
 @Composable
-fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
+fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit, onValidPost: (Boolean) -> Unit) {
     val context = LocalContext.current
+    val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
+    val cameraViewModel = CameraViewModel()
+
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Image(
@@ -40,7 +47,9 @@ fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
         ) {
             Button(
                 onClick = { onResult(false) },
+
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black)) {
+
                 Icon(
                     imageVector = Icons.Default.Close, // Icône de coche
                     contentDescription = "Valider",
@@ -48,10 +57,18 @@ fun CapturedImageView(imageUri: Uri, onResult: (Boolean) -> Unit) {
                 )
             }
             Button(
-                onClick = { onResult(true)},
+
+                onClick = { onResult(true)
+                    storeSelectedAquariumViewModel.getSelectedAquariumId()
+                    val selectedAquarium = storeSelectedAquariumViewModel.selectedAquarium.value
+
+                    if (selectedAquarium != null) {
+                        cameraViewModel.uploadJpgImage(selectedAquarium.toInt(), imageUri, onValidPost)
+                    }},
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
 
-            ) {
+                ) {
+
                 Icon(
                     imageVector = Icons.Default.Check, // Icône de coche
                     contentDescription = "Valider",

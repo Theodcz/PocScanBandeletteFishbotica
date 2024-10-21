@@ -4,6 +4,11 @@ import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,21 +37,37 @@ import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
 import com.example.aquariumtestapp.history.history
 import com.example.aquariumtestapp.home.home
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.aquariumtestapp.account.account
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
+import com.example.aquariumtestapp.history.history
+import com.example.aquariumtestapp.home.home
+import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.ui.theme.blue
 import com.example.aquariumtestapp.ui.theme.gray
 import com.example.aquariumtestapp.ui.theme.white
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun bottomAppBar(navController: NavHostController) {
     val navigationController = rememberNavController()
     val context = LocalContext.current
     val selected = remember { mutableStateOf("home") }
-    val dataViewModel : DataViewModel = viewModel();
+    val selectAquariumViewModel : SelectAquariumViewModel = viewModel();
+    val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
+    val parameterAquariumViewModel = ParameterAquariumViewModel()
+
     Scaffold(
         bottomBar = {
             BottomAppBar(
-                containerColor = white
+                containerColor = white,
+                modifier = Modifier.height(70.dp)
             )
             {
 
@@ -182,11 +202,17 @@ fun bottomAppBar(navController: NavHostController) {
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton =  {
-
             androidx.compose.material3.FloatingActionButton(
                 shape = CircleShape,
                 onClick = {
-                    context.startActivity(Intent(context, CameraActivity::class.java))
+                    if (storeSelectedAquariumViewModel.selectedAquarium.value != null)
+                    {
+                        context.startActivity(Intent(context, CameraActivity::class.java))
+                    }
+                    else
+                    {
+                        Toast.makeText(context, "Please select an aquarium first", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 containerColor = white, // Couleur de ton choix
                 modifier = Modifier.offset(x=0.dp, y=50.dp)
@@ -206,7 +232,7 @@ fun bottomAppBar(navController: NavHostController) {
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { home(dataViewModel) }
+            composable(Screens.HomeScreen.screen) { home(storeSelectedAquariumViewModel,selectAquariumViewModel,parameterAquariumViewModel) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account(navController = navController) }

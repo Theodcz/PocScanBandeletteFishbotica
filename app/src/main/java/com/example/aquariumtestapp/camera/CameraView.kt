@@ -31,6 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.aquariumtestapp.R
+import androidx.lifecycle.viewmodel.compose.viewModel
+
+import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
+
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -44,8 +48,10 @@ fun CameraView(
     executor: Executor,
     onImageCaptured: (Uri) -> Unit,
     onError: (ImageCaptureException) -> Unit,
-    onBackPressed : () -> Unit
+    onBackPressed: () -> Unit,
+    cameraViewModel: CameraViewModel = viewModel()
 ) {
+
     // 1
     val lensFacing = CameraSelector.LENS_FACING_BACK
     val context = LocalContext.current
@@ -134,7 +140,7 @@ fun CameraView(
     }
 }
 
-private fun takePhoto(
+fun takePhoto(
     filenameFormat: String,
     imageCapture: ImageCapture,
     outputDirectory: File,
@@ -163,10 +169,11 @@ private fun takePhoto(
     })
 }
 
-private suspend fun Context.getCameraProvider(): ProcessCameraProvider = suspendCoroutine { continuation ->
-    ProcessCameraProvider.getInstance(this).also { cameraProvider ->
-        cameraProvider.addListener({
-            continuation.resume(cameraProvider.get())
-        }, ContextCompat.getMainExecutor(this))
+private suspend fun Context.getCameraProvider(): ProcessCameraProvider =
+    suspendCoroutine { continuation ->
+        ProcessCameraProvider.getInstance(this).also { cameraProvider ->
+            cameraProvider.addListener({
+                continuation.resume(cameraProvider.get())
+            }, ContextCompat.getMainExecutor(this))
+        }
     }
-}

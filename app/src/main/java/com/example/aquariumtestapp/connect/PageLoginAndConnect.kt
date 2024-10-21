@@ -2,6 +2,7 @@ package com.example.aquariumtestapp.connect
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,31 +33,28 @@ fun PageLoginAndConnect(navController: NavHostController) {
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 197.dp),
-            horizontalAlignment = Alignment.CenterHorizontally // Centre horizontalement
+                .fillMaxSize(),
+               // .padding(),
+            horizontalAlignment = Alignment.CenterHorizontally, // Centre horizontalement
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logoconnexion),
                 contentDescription = "LogoConnexion",
-                modifier = Modifier.size(211.dp, 168.dp)
-
+                modifier = Modifier.size(210.dp, 168.dp)
             )
-
             Row(
                 modifier = Modifier.padding(top = 50.dp)
             ) {
                 Box(
                     modifier = Modifier
+                        .padding(end = 5.dp)
                         .size(13.dp) // Taille du cercle (diamètre)
                         .background(
                             color = Color(0xFFE7F3F8),
                             shape = CircleShape
-                        ) // Couleur et forme
+                        )
                 )
-
-                Spacer(modifier = Modifier.padding(5.dp))
-
                 Box(
                     modifier = Modifier
                         .size(13.dp) // Taille du cercle (diamètre)
@@ -81,10 +79,12 @@ fun PageLoginAndConnect(navController: NavHostController) {
                         "les fonctionnalités pour ton aquarium.",
                 fontSize = 13.sp,
                 modifier = Modifier
-                    .padding(top = 15.dp, start = 90.dp, end = 90.dp)
+                    .padding(top = 15.dp, start = 55.dp, end = 55.dp)
                     .fillMaxWidth(), // Prend toute la largeur de la page
                 textAlign = TextAlign.Center,
-                color = Color.Black.copy(alpha = 0.74f)
+                color = Color.Black.copy(alpha = 0.74f),
+                lineHeight = 16.sp
+
             )
 
             Row(

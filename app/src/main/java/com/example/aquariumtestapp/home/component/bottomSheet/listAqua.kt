@@ -33,25 +33,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.aquariumtestapp.DataViewModel
-import com.example.aquariumtestapp.LoadingComponent
-import com.example.aquariumtestapp.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
+import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
+
+import com.example.aquariumtestapp.utils.LoadingComponent
+
 @Composable
 fun listAqua(
     bottomSheetContinue : () -> Unit,
     bottomSheetAddAqua : () -> Unit,
-    dataViewModel : DataViewModel,
-    viewModel: SupabaseViewModel = viewModel(),
+
+    selectAquariumViewModel: SelectAquariumViewModel,
+    storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel,
+    parameterAquariumViewModel: ParameterAquariumViewModel
 ){
-    val aquariumData by viewModel.aquariumData.collectAsState() // aquariumData est maintenant de type List<AquariumResponse>?
-    val userState by viewModel.userState
-    val selectedAquariumId by dataViewModel.aquariumSelected.collectAsState()
+    val aquariumData by selectAquariumViewModel.aquariumData
+    val userState by selectAquariumViewModel.userState
 
     LaunchedEffect(Unit)
     {
-        viewModel.getAquarium()
+        selectAquariumViewModel.getAquarium()
+
     }
 
     Box(
@@ -77,7 +81,6 @@ fun listAqua(
                 is UserState.Loading -> {
                     LoadingComponent()
                 }
-
                 is UserState.Success -> {
 
                     LazyColumn(
@@ -88,8 +91,7 @@ fun listAqua(
                             .padding(bottom = 7.dp)
                     ) {
                         items(aquariumData  ?: emptyList() ) { aquarium ->
-
-                            val isSelected = selectedAquariumId == aquarium.aquariumId
+                            val isSelected = storeSelectedAquariumViewModel.selectedAquarium.value == aquarium.aquariumId
 
                             val backgroundColor =
                                 if (isSelected) Color(0xFF63A8E7) else Color(0xFFF8F8F8)
@@ -101,8 +103,16 @@ fun listAqua(
                                     .fillMaxWidth()
                                     .padding(7.dp)
                                     .clickable {
-                                        //selectedAquariumId = aquarium.aquariumId
-                                        dataViewModel.setAquariumSelected(aquarium.aquariumId, aquarium.name)
+                                        storeSelectedAquariumViewModel.saveSelectedAquarium(aquarium.aquariumId, aquarium.name)
+                                        storeSelectedAquariumViewModel.getSelectedAquariumId()
+                                        storeSelectedAquariumViewModel.getSelectedAquariumName()
+                                        storeSelectedAquariumViewModel.selectedAquarium.value?.let {
+                                            storeSelectedAquariumViewModel.deleteSelectedAquarium(
+                                                it
+                                            )
+                                        }
+                                        parameterAquariumViewModel.getParameterAquarium(aquarium.aquariumId)
+                                      //  println("Aquarium selected: ${aquarium.aquariumId} ${aquarium.name}")
                                     }
                                     .clip(RoundedCornerShape(10.dp))
                                     .border(1.dp, Color(0x176D6D6D))
@@ -125,8 +135,7 @@ fun listAqua(
 
                                         .clip(RoundedCornerShape(10.dp))
                                         .clickable {
-
-                                            viewModel.deleteAquarium(aquarium.aquariumId)
+                                            selectAquariumViewModel.deleteAquarium(aquarium.aquariumId)
                                         }
                                         .padding(3.dp)
                                 ) {
@@ -150,7 +159,6 @@ fun listAqua(
 
             Button(
                 onClick = {
-                  //  viewModel.saveAquarium(name, volume.toInt())
                     println("Aquarium saved button")
                     bottomSheetContinue()
                 },

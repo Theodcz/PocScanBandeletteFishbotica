@@ -31,27 +31,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraActivity : ComponentActivity() {
 
-    private lateinit var outputDirectory: File
+    private val cameraViewModel = CameraViewModel()
     private lateinit var cameraExecutor: ExecutorService
     private var shouldShowCamera: MutableState<Boolean> = mutableStateOf(false)
     private var capturedImageUri: MutableState<Uri?> = mutableStateOf(null) // Nouvelle variable d'état
 
-    private val requestPermissionLauncher = registerForActivityResult( // vérifie si la permissition de la caméra à déja été accordé
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            Log.i("kilo", "Permission granted")
-            shouldShowCamera.value = true
-        } else {
-            Log.i("kilo", "Permission denied")
+    private val requestPermissionLauncher =
+        registerForActivityResult( // vérifie si la permissition de la caméra à déja été accordé
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                Log.i("kilo", "Permission granted")
+                shouldShowCamera.value = true
+            } else {
+                Log.i("kilo", "Permission denied")
+            }
+
         }
-    }
 
     private fun requestCameraPermission() { // demande la permission de la caméra
         when (PackageManager.PERMISSION_GRANTED) {
@@ -62,9 +65,12 @@ class CameraActivity : ComponentActivity() {
                 Log.i("kilo", "Permission previously granted")
                 shouldShowCamera.value = true
             }
+
             else -> requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
     }
+
+
     private fun openAppSettings() {
         finish()
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -73,20 +79,31 @@ class CameraActivity : ComponentActivity() {
         startActivity(intent)
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) { // se lance lorsqu'on lance l'activité
         super.onCreate(savedInstanceState)
-        outputDirectory = getOutputDirectory()
+        cameraViewModel.outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
         requestCameraPermission()
-
         setContent {
             if (shouldShowCamera.value) { // si la permission de la caméra est accordé alors on affiche la caméra
                 CameraView(
-                    outputDirectory = outputDirectory,
+                    outputDirectory = cameraViewModel.outputDirectory,
                     executor = cameraExecutor,
                     onImageCaptured = { uri ->
                         handleImageCapture(uri) // Envoie l'URI de l'image
-                        capturedImageUri.value = uri // Mettez à jour l'URI capturé
+
+                        cameraViewModel.capturedImageUri.value = uri // Mettez à jour l'URI capturé
+
+                        /*if (selectedAquarium != null) {
+                            cameraViewModel.uploadJpgImage(selectedAquarium.toInt())
+                        }
+                        else {
+                            cameraViewModel.uploadJpgImage(18)
+                            Log.e("kilo", "No selected aquarium found. Defaulting to 1")
+                        }*/
+
+
                     },
                     onError = { Log.e("kilo", "View error:", it) },
                     onBackPressed = {
@@ -96,6 +113,7 @@ class CameraActivity : ComponentActivity() {
             } else {
                 Box(
                     modifier = Modifier.fillMaxSize() ,
+
                 ) {
                     IconButton(
                         onClick = {
@@ -126,19 +144,22 @@ class CameraActivity : ComponentActivity() {
                             Text("Open Settings")
                         }
                     }
-
-
                 }
             }
-            capturedImageUri.value?.let { uri ->
-                CapturedImageView(uri) { isAccepted ->
-                    if (isAccepted) {
-                        // ajouter le post
-                        Toast.makeText(this, "Image validated!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        capturedImageUri.value = null // Réinitialise l'URI
-                    }
-                }
+
+            cameraViewModel.capturedImageUri.value?.let { uri ->
+                CapturedImageView(uri,
+                    onResult = { isAccepted ->
+                        if (isAccepted) {
+                            Toast.makeText(this, "Image validated!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            cameraViewModel.capturedImageUri.value = null // Réinitialise l'URI
+                        }
+                    },
+                    onValidPost = {
+                        cameraViewModel.capturedImageUri.value = null
+                        finish()
+                })
             }
         }
     }

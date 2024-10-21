@@ -4,7 +4,7 @@
     <uses-feature android:name="android.hardware.camera.any"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +14,10 @@
         android:roundIcon="@drawable/fishbotica"
         android:supportsRtl="true"
         android:theme="@style/Theme.AquariumTestApp"
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <activity android:name=".camera.CameraActivity"/>
         <activity
             android:name=".MainActivity"

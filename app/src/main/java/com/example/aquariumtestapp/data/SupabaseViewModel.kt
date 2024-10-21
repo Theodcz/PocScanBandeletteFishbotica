@@ -1,4 +1,4 @@
-package com.example.aquariumtestapp
+package com.example.aquariumtestapp.data
 
 
 import android.content.Context
@@ -30,7 +30,7 @@ class SupabaseViewModel : ViewModel() {
 
     fun signUp(
         context: Context,
-        displayName : String,
+        displayName: String,
         userEmail: String,
         userPassword: String,
         navController: NavController,
@@ -49,7 +49,7 @@ class SupabaseViewModel : ViewModel() {
                 _userState.value = UserState.Success("Registered successfully!")
                 navController.navigate("bottomAppBar")
 
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 _userState.value = UserState.Error(e.message ?: "")
             }
 
@@ -60,7 +60,7 @@ class SupabaseViewModel : ViewModel() {
         viewModelScope.launch {
             val accessToken = client.auth.currentAccessTokenOrNull()
             val sharedPref = SharedPreferenceHelper(context)
-            sharedPref.saveStringData("accessToken",accessToken)
+            sharedPref.saveStringData("accessToken", accessToken)
         }
     }
 
@@ -93,8 +93,12 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-    fun logout(context: Context,
-               navController: NavController) {
+
+    fun logout(
+        context: Context,
+        navController: NavController
+    ) {
+
         val sharedPref = SharedPreferenceHelper(context)
         viewModelScope.launch {
             try {
