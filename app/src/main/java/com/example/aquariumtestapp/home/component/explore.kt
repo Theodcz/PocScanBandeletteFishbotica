@@ -72,7 +72,7 @@ fun exploreTask() {
                 {
 
                     Text("Bonjour ${metadata?.get("displayname")?.toString()?.replace("\"", "")} !", fontSize = 17.sp)
-                    Text("Explore Tasks", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
+                    Text("Notifications", fontWeight = FontWeight.SemiBold, fontSize = 20.sp)
                 }
             }
 
