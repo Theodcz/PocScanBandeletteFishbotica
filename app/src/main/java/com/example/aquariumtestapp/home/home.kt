@@ -48,6 +48,11 @@ fun home (
     val lastParameter = parameterAquariumViewModel.lastParameter.value
     Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
 
+    /*LaunchedEffect(Unit) { // dans le cas ou l'utilisateur se connecte et que l'aquarium est déjà sélectionné
+        selectedAquarium?.let { aquariumId ->
+            parameterAquariumViewModel.getParameterAquarium(aquariumId)
+        }
+    }*/
     LaunchedEffect(Unit) { // dans le cas ou l'utilisateur se connecte et que l'aquarium est déjà sélectionné
         selectedAquarium?.let { aquariumId ->
             parameterAquariumViewModel.getParameterAquarium(aquariumId)

@@ -50,7 +50,6 @@ class ParameterAquariumRepository {
                 ParameterAquariumGetBdd(it.aquariumId,it.timestamp, it.CL2, it.GH, it.KH, it.NO2, it.NO3, it.PH, it.TA)
             }
 
-
         } catch (e: Exception) {
             Log.e("kilo","error getParameterAquarium : " + e.message)
             return emptyList()

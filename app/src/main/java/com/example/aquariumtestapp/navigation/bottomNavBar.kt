@@ -41,6 +41,7 @@ import com.example.aquariumtestapp.shop.shop
 import com.example.aquariumtestapp.ui.theme.blue
 import com.example.aquariumtestapp.ui.theme.gray
 import com.example.aquariumtestapp.ui.theme.white
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun bottomAppBar(navController: NavHostController) {
@@ -189,7 +190,6 @@ fun bottomAppBar(navController: NavHostController) {
         },
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton =  {
-
             androidx.compose.material3.FloatingActionButton(
                 shape = CircleShape,
                 onClick = {

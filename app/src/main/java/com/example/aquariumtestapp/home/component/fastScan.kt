@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import kotlinx.coroutines.launch
+
 @Composable
 fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     val context = LocalContext.current
@@ -47,7 +49,10 @@ fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
     val lastParam = parameterAquariumViewModel.lastParameter.collectAsState()
 
+    LaunchedEffect(lastParam.value)
+    {
 
+    }
 
     Log.e("kilo","parameterData test : " + lastParam)
 
@@ -83,6 +88,10 @@ fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     ) { pages.size }
     val coroutineScope = rememberCoroutineScope()
 
+
+    //val formatter = SimpleDateFormat("MM/dd/yyyy")
+    //val timestamp = parameterAquariumViewModel.lastParameter.value?.timestamp.toString()
+    //val timestampRefactor = formatter.parse(timestamp)
     Box(
         modifier = Modifier
 
@@ -111,7 +120,7 @@ fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
 
             }, fontSize = 18.sp)
             Text(
-                text = "Paramètre chimiques de l'aquarium",
+                text = "Paramètres chimiques de l'aquarium",
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 5.dp)
             )
@@ -166,7 +175,7 @@ fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
                         }
                     },
                 )
-                Text("01/10/2021", color = Color(0xD8696969), fontSize = 13.sp)
+                Text("01/01/2024", color = Color(0xD8696969), fontSize = 13.sp)
             }
         }
 
