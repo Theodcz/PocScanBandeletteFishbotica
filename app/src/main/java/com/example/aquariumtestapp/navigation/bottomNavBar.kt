@@ -32,6 +32,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.account.account
 import com.example.aquariumtestapp.camera.CameraActivity
+import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.history.history
 import com.example.aquariumtestapp.home.home
 import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
@@ -48,7 +49,7 @@ fun bottomAppBar(navController: NavHostController) {
     val selected = remember { mutableStateOf("home") }
     val selectAquariumViewModel : SelectAquariumViewModel = viewModel();
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-
+    val parameterAquariumViewModel = ParameterAquariumViewModel()
     Scaffold(
         bottomBar = {
             BottomAppBar(
@@ -219,7 +220,7 @@ fun bottomAppBar(navController: NavHostController) {
             startDestination = Screens.HomeScreen.screen,
             modifier = Modifier.padding(paddingValues))
         {
-            composable(Screens.HomeScreen.screen) { home(storeSelectedAquariumViewModel,selectAquariumViewModel,) }
+            composable(Screens.HomeScreen.screen) { home(storeSelectedAquariumViewModel,selectAquariumViewModel,parameterAquariumViewModel) }
             composable(Screens.HistoryScreen.screen) { history() }
             composable(Screens.ShopScreen.screen) { shop() }
             composable(Screens.AccountScreen.screen) { account(navController = navController) }

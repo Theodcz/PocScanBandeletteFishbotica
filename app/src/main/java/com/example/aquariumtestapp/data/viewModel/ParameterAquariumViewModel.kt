@@ -5,24 +5,22 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aquariumtestapp.camera.viewModel.CameraViewModel
 import com.example.aquariumtestapp.data.model.ParameterAquarium
 import com.example.aquariumtestapp.data.model.ParameterAquariumGetBdd
 import com.example.aquariumtestapp.data.repository.ParameterAquariumRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 class ParameterAquariumViewModel : ViewModel() {
 
     private val repository = ParameterAquariumRepository()
     private val _parameterData = mutableStateOf<List<ParameterAquariumGetBdd>>(emptyList())
-    val parameterData: State<List<ParameterAquariumGetBdd>> = _parameterData
+    val parameterData: State<List<ParameterAquariumGetBdd>> get() = _parameterData
 
-    private val _lastParameter = mutableStateOf<ParameterAquariumGetBdd?>(null)
-    val lastParameter: State<ParameterAquariumGetBdd?> = _lastParameter
+    private val _lastParameter = MutableStateFlow<ParameterAquariumGetBdd?>(null)
+    val lastParameter: StateFlow<ParameterAquariumGetBdd?> get() = _lastParameter
 
-    var test = "teste"
     fun postParameterAquarium(parameter: ParameterAquarium, onValidPost: (Boolean) -> Unit) {
-        val cameraViewModel = CameraViewModel()
-
         viewModelScope.launch {
             try {
                 repository.postParameterAquarium(parameter)
@@ -35,9 +33,6 @@ class ParameterAquariumViewModel : ViewModel() {
         }
     }
 
-    fun getTest() {
-        test = "test"
-    }
 
 
     fun getParameterAquarium(idAquarium : Int) {
@@ -48,7 +43,6 @@ class ParameterAquariumViewModel : ViewModel() {
                 val sortedParameters = _parameterData.value.sortedByDescending { it.timestamp }
                 _lastParameter.value = sortedParameters.first()
                 Log.e("kilo"," getParameterAquariumm : " + _lastParameter.value.toString())
-                //Log.e("kilo","parameterData : " + _parameterData.value)
             } catch (e: Exception) {
                 _parameterData.value = emptyList()
 

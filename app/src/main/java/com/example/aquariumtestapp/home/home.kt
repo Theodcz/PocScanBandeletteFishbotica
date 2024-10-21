@@ -40,12 +40,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun home (
     storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel,
-    selectAquariumViewModel: SelectAquariumViewModel
+    selectAquariumViewModel: SelectAquariumViewModel,
+    parameterAquariumViewModel : ParameterAquariumViewModel
 ) {
-    val parameterAquariumViewModel = ParameterAquariumViewModel()
+
     val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
     val lastParameter = parameterAquariumViewModel.lastParameter.value
     Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
+
     LaunchedEffect(Unit) { // dans le cas ou l'utilisateur se connecte et que l'aquarium est déjà sélectionné
         selectedAquarium?.let { aquariumId ->
             parameterAquariumViewModel.getParameterAquarium(aquariumId)
@@ -84,7 +86,7 @@ fun home (
             modifier = Modifier.fillMaxSize()
         ) {
             exploreTask()
-            nextTest ( {manageState()}, storeSelectedAquariumViewModel )
+            nextTest ( {manageState()}, storeSelectedAquariumViewModel)
             fastScan(parameterAquariumViewModel)
             Spacer(modifier = Modifier.height(16.dp))
             mesure()
@@ -100,7 +102,7 @@ fun home (
             ) {
                 when (isAddingAqua.value) {
                     "listAqua" -> {
-                        listAqua({manageNavBottomBar("Continue")},{manageNavBottomBar("addAqua")},selectAquariumViewModel,storeSelectedAquariumViewModel)
+                        listAqua({manageNavBottomBar("Continue")},{manageNavBottomBar("addAqua")},selectAquariumViewModel,storeSelectedAquariumViewModel, parameterAquariumViewModel)
                     }
                     "addAqua" -> {
                         addAqua ({manageNavBottomBar("listAqua")}, {manageNavBottomBar("aquaIsAdd")})

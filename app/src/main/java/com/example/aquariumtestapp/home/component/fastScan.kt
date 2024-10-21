@@ -19,7 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -40,61 +40,22 @@ import androidx.compose.ui.unit.sp
 import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import kotlinx.coroutines.launch
-
 @Composable
 fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     val context = LocalContext.current
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-    //val parameterAquariumViewModel = ParameterAquariumViewModel()
     val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
+    val lastParam = parameterAquariumViewModel.lastParameter.collectAsState()
 
-    LaunchedEffect(selectedAquarium) {
-        selectedAquarium?.let { aquariumId ->
-            parameterAquariumViewModel.getParameterAquarium(aquariumId)
-        }
-    }
 
+
+    Log.e("kilo","parameterData test : " + lastParam)
 
     val configuration = LocalConfiguration.current
-    /*val pages = remember {
-        listOf(
-            listOf(
-                Triple("7.5", "pH", Color(0x90B3EDE9)),
-                Triple("8.2", "KH", Color(0x90BFE0FF)),
-                Triple("20", "GH", Color(0x90F1D8E7)),
-                Triple("100", "N02", Color(0x90A8E3C2)),
-                Triple("400", "NO3", Color(0x908693D5))
-            ),
-            listOf(
-                Triple("7.5", "TA", Color(0x90B3EDE9)),
-                Triple("8.2", "CL2", Color(0x90BFE0FF)),
-                Triple("", "", Color(0xAD949494)),
-                Triple("", "", Color(0xAD949494)),
-                Triple("", "", Color(0xAD949494))
-            )
-        )
-    }*/
-    /*
-    val pages = remember {
-        listOf(
-            listOf(
-                Triple(parameterAquariumViewModel.lastParameter.value?.PH.toString(), "pH", Color(0x90B3EDE9)),
-                Triple(parameterAquariumViewModel.lastParameter.value?.KH.toString(), "KH", Color(0x90BFE0FF)),
-                Triple(parameterAquariumViewModel.lastParameter.value?.GH.toString(), "GH", Color(0x90F1D8E7)),
-                Triple(parameterAquariumViewModel.lastParameter.value?.NO2.toString(), "N02", Color(0x90A8E3C2)),
-                Triple(parameterAquariumViewModel.lastParameter.value?.NO3.toString(), "NO3", Color(0x908693D5))
-            ),
-            listOf(
-                Triple(parameterAquariumViewModel.lastParameter.value?.TA.toString(), "TA", Color(0x90B3EDE9)),
-                Triple(parameterAquariumViewModel.lastParameter.value?.CL2.toString(), "CL2", Color(0x90BFE0FF)),
-                Triple("", "", Color(0xAD949494)),
-                Triple("", "", Color(0xAD949494)),
-                Triple("", "", Color(0xAD949494))
-            )
-        )
-    }*/
+
     Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
     Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
+
     val pages by remember(parameterAquariumViewModel.lastParameter.value) {
         derivedStateOf {
             listOf(

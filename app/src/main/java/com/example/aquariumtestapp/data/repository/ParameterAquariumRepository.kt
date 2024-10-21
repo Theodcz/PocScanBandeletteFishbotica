@@ -21,6 +21,7 @@ class ParameterAquariumRepository {
             Log.e("kilo","Error postParameterAquarium : ${e.message}")
         }
     }*/
+
     suspend fun postParameterAquarium(parameter: ParameterAquarium) {
         try {
             SupabaseClient.client.postgrest["ChemicalParameter"].insert(
@@ -44,6 +45,7 @@ class ParameterAquariumRepository {
             val listType = object : TypeToken<List<ParameterAquariumGetBdd>>() {}.type
             val parameterList: List<ParameterAquariumGetBdd> = Gson().fromJson(response.data, listType)
             Log.e("kilo"," getParameterAquarium : " + response.data.toString())
+
             return parameterList.map {
                 ParameterAquariumGetBdd(it.aquariumId,it.timestamp, it.CL2, it.GH, it.KH, it.NO2, it.NO3, it.PH, it.TA)
             }

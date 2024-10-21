@@ -42,12 +42,11 @@ fun listAqua(
     bottomSheetContinue : () -> Unit,
     bottomSheetAddAqua : () -> Unit,
     selectAquariumViewModel: SelectAquariumViewModel,
-    storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel
-
+    storeSelectedAquariumViewModel: StoreSelectedAquariumViewModel,
+    parameterAquariumViewModel: ParameterAquariumViewModel
 ){
     val aquariumData by selectAquariumViewModel.aquariumData
     val userState by selectAquariumViewModel.userState
-    val parameterAquariumViewModel = ParameterAquariumViewModel()
 
     LaunchedEffect(Unit)
     {
@@ -99,8 +98,6 @@ fun listAqua(
                                     .fillMaxWidth()
                                     .padding(7.dp)
                                     .clickable {
-                                        //selectedAquariumId = aquarium.aquariumId
-                                     //   selectAquariumViewModel.setAquariumSelected(aquarium.aquariumId, aquarium.name)
                                         storeSelectedAquariumViewModel.saveSelectedAquarium(aquarium.aquariumId, aquarium.name)
                                         storeSelectedAquariumViewModel.getSelectedAquariumId()
                                         storeSelectedAquariumViewModel.getSelectedAquariumName()
@@ -158,7 +155,6 @@ fun listAqua(
 
             Button(
                 onClick = {
-                  //  viewModel.saveAquarium(name, volume.toInt())
                     println("Aquarium saved button")
                     bottomSheetContinue()
                 },
