@@ -22,7 +22,9 @@ Une solution innovante qui simplifie la gestion des aquariums grâce à des cons
 
 ## Lancement du projet 
 Pour lancer le projet, il faut ajouter les deux parametres suivants dans local.properties : 
+
 SUPABASE_API_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJuenVvdnRvdmViandoY2F2b2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc4NTQ3MDEsImV4cCI6MjA0MzQzMDcwMX0.AW5uL_np0cpkMqFdZ2zVgT19X4qS4dTR8Rb2NQvH814
+
 SUPABASE_URL = https://rnzuovtovebjwhcavolb.supabase.co
 
 De plus, si vous souhaitez tester l'API python, il faut nous demander pour qu'on la deploie.
