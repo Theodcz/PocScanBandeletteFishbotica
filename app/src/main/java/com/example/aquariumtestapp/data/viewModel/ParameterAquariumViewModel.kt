@@ -8,8 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.aquariumtestapp.data.model.ParameterAquarium
 import com.example.aquariumtestapp.data.model.ParameterAquariumGetBdd
 import com.example.aquariumtestapp.data.repository.ParameterAquariumRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 class ParameterAquariumViewModel : ViewModel() {
 
@@ -17,8 +15,8 @@ class ParameterAquariumViewModel : ViewModel() {
     private val _parameterData = mutableStateOf<List<ParameterAquariumGetBdd>>(emptyList())
     val parameterData: State<List<ParameterAquariumGetBdd>> get() = _parameterData
 
-    private val _lastParameter = MutableStateFlow<ParameterAquariumGetBdd?>(null)
-    val lastParameter: StateFlow<ParameterAquariumGetBdd?> get() = _lastParameter
+    private val _lastParameter = mutableStateOf<ParameterAquariumGetBdd?>(null)
+    val lastParameter: State<ParameterAquariumGetBdd?> get() = _lastParameter
 
     fun postParameterAquarium(parameter: ParameterAquarium, onValidPost: (Boolean) -> Unit) {
         viewModelScope.launch {
