@@ -13,16 +13,13 @@ import kotlinx.coroutines.launch
 class ParameterAquariumViewModel : ViewModel() {
 
     private val repository = ParameterAquariumRepository()
-    val _parameterData = mutableStateOf<List<ParameterAquariumGetBdd>>(emptyList())
+    private val _parameterData = mutableStateOf<List<ParameterAquariumGetBdd>>(emptyList())
     val parameterData: State<List<ParameterAquariumGetBdd>> = _parameterData
 
-    // pour stocker le dernier paramètre enregistré
-    //private val _lastParameter = mutableStateOf<ParameterAquariumGetBdd?>(null)
-    //val lastParameter: State<ParameterAquariumGetBdd?> = _lastParameter
+    private val _lastParameter = mutableStateOf<ParameterAquariumGetBdd?>(null)
+    val lastParameter: State<ParameterAquariumGetBdd?> = _lastParameter
 
-    val _lastParameter = mutableStateOf<ParameterAquariumGetBdd?>(null)
-    //val lastParameter: State<ParameterAquariumGetBdd?> = _lastParameter
-
+    var test = "teste"
     fun postParameterAquarium(parameter: ParameterAquarium, onValidPost: (Boolean) -> Unit) {
         val cameraViewModel = CameraViewModel()
 
@@ -36,6 +33,10 @@ class ParameterAquariumViewModel : ViewModel() {
 
 
         }
+    }
+
+    fun getTest() {
+        test = "test"
     }
 
 

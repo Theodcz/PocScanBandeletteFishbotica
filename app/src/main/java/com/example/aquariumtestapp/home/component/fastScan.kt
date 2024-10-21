@@ -42,10 +42,10 @@ import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun fastScan () {
+fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     val context = LocalContext.current
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-    val parameterAquariumViewModel = ParameterAquariumViewModel()
+    //val parameterAquariumViewModel = ParameterAquariumViewModel()
     val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
 
     LaunchedEffect(selectedAquarium) {
@@ -93,20 +93,21 @@ fun fastScan () {
             )
         )
     }*/
-    Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel._lastParameter.value.toString())
-    val pages by remember(parameterAquariumViewModel._lastParameter.value) {
+    Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
+    Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
+    val pages by remember(parameterAquariumViewModel.lastParameter.value) {
         derivedStateOf {
             listOf(
                 listOf(
-                    Triple(parameterAquariumViewModel._lastParameter.value?.PH?.toString() ?: "_ _", "pH", Color(0x90B3EDE9)),
-                    Triple(parameterAquariumViewModel._lastParameter.value?.KH?.toString() ?: "_ _", "KH", Color(0x90BFE0FF)),
-                    Triple(parameterAquariumViewModel._lastParameter.value?.GH?.toString() ?: "_ _", "GH", Color(0x90F1D8E7)),
-                    Triple(parameterAquariumViewModel._lastParameter.value?.NO2?.toString() ?: "_ _", "N02", Color(0x90A8E3C2)),
-                    Triple(parameterAquariumViewModel._lastParameter.value?.NO3?.toString() ?: "_ _", "NO3", Color(0x908693D5))
+                    Triple(parameterAquariumViewModel.lastParameter.value?.PH?.toString() ?: "_ _", "pH", Color(0x90B3EDE9)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.KH?.toString() ?: "_ _", "KH", Color(0x90BFE0FF)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.GH?.toString() ?: "_ _", "GH", Color(0x90F1D8E7)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.NO2?.toString() ?: "_ _", "N02", Color(0x90A8E3C2)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.NO3?.toString() ?: "_ _", "NO3", Color(0x908693D5))
                 ),
                 listOf(
-                    Triple(parameterAquariumViewModel._lastParameter.value?.TA?.toString() ?: "_ _", "TA", Color(0x90B3EDE9)),
-                    Triple(parameterAquariumViewModel._lastParameter.value?.CL2?.toString() ?: "_ _", "CL2", Color(0x90BFE0FF)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.TA?.toString() ?: "_ _", "TA", Color(0x90B3EDE9)),
+                    Triple(parameterAquariumViewModel.lastParameter.value?.CL2?.toString() ?: "_ _", "CL2", Color(0x90BFE0FF)),
                     Triple("", "", Color(0xAD949494)),
                     Triple("", "", Color(0xAD949494)),
                     Triple("", "", Color(0xAD949494))

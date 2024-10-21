@@ -1,5 +1,6 @@
 package com.example.aquariumtestapp.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +44,8 @@ fun home (
 ) {
     val parameterAquariumViewModel = ParameterAquariumViewModel()
     val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
-
+    val lastParameter = parameterAquariumViewModel.lastParameter.value
+    Log.e("kilo","parameterDataaaa : " + parameterAquariumViewModel.lastParameter.value.toString())
     LaunchedEffect(Unit) { // dans le cas ou l'utilisateur se connecte et que l'aquarium est déjà sélectionné
         selectedAquarium?.let { aquariumId ->
             parameterAquariumViewModel.getParameterAquarium(aquariumId)
@@ -83,7 +85,7 @@ fun home (
         ) {
             exploreTask()
             nextTest ( {manageState()}, storeSelectedAquariumViewModel )
-            fastScan()
+            fastScan(parameterAquariumViewModel)
             Spacer(modifier = Modifier.height(16.dp))
             mesure()
             BottomSheet(
