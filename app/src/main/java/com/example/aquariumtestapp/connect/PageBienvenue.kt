@@ -31,22 +31,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.aquariumtestapp.R
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.utils.LoadingComponent
+import com.example.aquariumtestapp.R
 
-@Composable 
+
+
+@Composable
 fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {
     val context = LocalContext.current
     val userState by viewModel.userState
     var isLoading by remember { mutableStateOf(true) }
     var hasNavigated by remember { mutableStateOf(false) } // Variable pour suivre la navigation
 
+
+
     LaunchedEffect(Unit) {
-        viewModel.isUserLoggedIn(context)
+        if (!hasNavigated) {
+            viewModel.isUserLoggedIn(context)
+        }
     }
 
     when (userState) {
@@ -66,12 +73,13 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
         }
 
         is UserState.Error -> {
-            Text("Erreur : ${(userState as UserState.Error).message}")
+            isLoading = false
         }
+
+        else -> {}
     }
 
     if (!isLoading && !hasNavigated) {
-
 
         Column(
             modifier = Modifier
@@ -107,12 +115,12 @@ fun PageBienvenue(viewModel: SupabaseViewModel = viewModel(), navController: Nav
                         ) // Couleur et forme
                 )
             }
+
             Text(
                 text = "Bienvenue chez FISHBOTICA",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
-
 
             Text(
                 text = "Explorez une expérience unique de gestion, " +

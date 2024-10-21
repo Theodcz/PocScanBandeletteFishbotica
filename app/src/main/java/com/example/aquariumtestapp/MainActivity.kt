@@ -18,6 +18,7 @@ import com.example.aquariumtestapp.connect.PageLoginAndConnect
 import com.example.aquariumtestapp.connect.Register
 import com.example.aquariumtestapp.navigation.bottomAppBar
 import com.example.aquariumtestapp.ui.theme.AquariumTestAppTheme
+
 class MainActivity : ComponentActivity() {
 
 
@@ -43,6 +44,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationComponent(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "bienvenue") {
+
         composable("bienvenue") {
             PageBienvenue(navController = navController)
         }
@@ -61,9 +63,6 @@ fun NavigationComponent(navController: NavHostController) {
         composable("login") {
             LoginScreen(navController = navController)
         }
-        /*composable("listAquarium") {
-            listAqua(navController)
-        }*/
     }
 }
 

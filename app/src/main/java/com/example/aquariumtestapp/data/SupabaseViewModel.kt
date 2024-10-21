@@ -25,6 +25,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
 class SupabaseViewModel : ViewModel() {
+
     private val _userState = mutableStateOf<UserState>(UserState.Loading)
     val userState: State<UserState> = _userState
 
@@ -35,6 +36,7 @@ class SupabaseViewModel : ViewModel() {
         userPassword: String,
         navController: NavController,
     ) {
+        println("sign up")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
@@ -75,6 +77,7 @@ class SupabaseViewModel : ViewModel() {
         userPassword: String,
         navController: NavController,
     ) {
+        println("login")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
@@ -93,12 +96,10 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-
     fun logout(
         context: Context,
         navController: NavController
     ) {
-
         val sharedPref = SharedPreferenceHelper(context)
         viewModelScope.launch {
             try {
@@ -123,31 +124,40 @@ class SupabaseViewModel : ViewModel() {
     }
 
     fun isUserLoggedIn(context: Context) {
+        println("isUserLoggedIn")
         viewModelScope.launch {
             try {
                 _userState.value = UserState.Loading
                 val token = getToken(context)
+                println("Token: $token")
                 if (token.isNullOrEmpty()) {
                     _userState.value = UserState.Success("User not logged in!")
                 } else {
+                    println("Retrieving user...")
                     client.auth.retrieveUser(token)
+                    println("Refreshing session...")
                     client.auth.refreshCurrentSession()
                     saveToken(context)
                     _userState.value = UserState.Success("User already logged in!")
                 }
+            } catch (e: IllegalStateException) {
+                _userState.value = UserState.Error("No refresh token found in current session.")
             } catch (e: RestException) {
                 _userState.value = UserState.Error(e.error)
             }
         }
     }
 
-    private val _aquariumData = MutableStateFlow<List<AquariumSelect>?>(null) // Utilisation de MutableStateFlow pour gérer l'état des données
+    private val _aquariumData =
+        MutableStateFlow<List<AquariumSelect>?>(null) // Utilisation de MutableStateFlow pour gérer l'état des données
     val aquariumData: StateFlow<List<AquariumSelect>?> get() = _aquariumData // Exposition de l'état
 
 
     fun getAquarium() {
         val user = client.auth.currentUserOrNull()
         val id = user?.id
+
+        println("get aqua")
 
         viewModelScope.launch {
             try {
@@ -170,7 +180,7 @@ class SupabaseViewModel : ViewModel() {
         }
     }
 
-    fun deleteAquarium(idAquarium : Int) {
+    fun deleteAquarium(idAquarium: Int) {
         val user = client.auth.currentUserOrNull()
         val userId = user?.id
 
@@ -180,7 +190,7 @@ class SupabaseViewModel : ViewModel() {
 
                 // Effectuer la requête pour supprimer l'aquarium
                 val response = client.postgrest["Aquarium"].delete {
-                    filter{
+                    filter {
                         eq("aquariumId", idAquarium)
                         eq("uuid", userId.toString())
                     }
@@ -196,7 +206,7 @@ class SupabaseViewModel : ViewModel() {
 
     }
 
-    fun saveAquarium(name : String, volume : Int) {
+    fun saveAquarium(name: String, volume: Int) {
         val user = client.auth.currentUserOrNull()
         val id = user?.id
 
@@ -215,5 +225,9 @@ class SupabaseViewModel : ViewModel() {
                 _userState.value = UserState.Error("Error: ${e.message}")
             }
         }
+    }
+
+    fun clearUserState() {
+        _userState.value = UserState.Idle
     }
 }

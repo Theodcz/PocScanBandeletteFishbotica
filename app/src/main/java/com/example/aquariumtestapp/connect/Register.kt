@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,14 +30,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aquariumtestapp.R
-
 import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.utils.LoadingComponent
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Register(
     viewModel: SupabaseViewModel = viewModel(),
@@ -51,6 +50,10 @@ fun Register(
 
     val userState by viewModel.userState
     var currentUserState by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.clearUserState()
+    }
 
     Column(
         modifier = Modifier
@@ -68,14 +71,18 @@ fun Register(
 
         Spacer(modifier = Modifier.padding(8.dp))
 
-        Text(text = "Inscrivez - vous pour une expérience optimale !",
+        Text(
+            text = "Inscrivez - vous pour une expérience optimale !",
             fontSize = 13.sp,
         )
 
         TextField(
-            modifier = Modifier.padding(top = 24.dp).border(1.dp, Color(0xFFE2EDF2), shape = RoundedCornerShape(8.dp)),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Rend le fond transparent
+            modifier = Modifier
+                .padding(top = 24.dp)
+                .border(1.dp, Color(0xFFE2EDF2), shape = RoundedCornerShape(8.dp)),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent, // Rend le fond transparent
+                unfocusedContainerColor = Color.Transparent, // Rend le fond transparent
                 focusedIndicatorColor = Color.Transparent,  // Supprime la ligne lors du focus
                 unfocusedIndicatorColor = Color.Transparent // Supprime la ligne sans focus
             ),
@@ -87,23 +94,25 @@ fun Register(
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
-                    Text(text = "Comment dois - je vous appelez ?",
+                    Text(
+                        text = "Comment dois - je vous appelez ?",
                         fontSize = 13.sp,
                         modifier = Modifier.padding(start = 8.dp, top = 3.dp) // Padding à gauche
                     )
                 }
-        }, onValueChange = {
-            displayName = it
-        } )
+            }, onValueChange = {
+                displayName = it
+            })
 
         Spacer(modifier = Modifier.padding(8.dp))
 
         TextField(
             modifier = Modifier.border(1.dp, Color(0xFFE2EDF2), shape = RoundedCornerShape(8.dp)),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Rend le fond transparent
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent, // Rend le fond transparent
+                unfocusedContainerColor = Color.Transparent, // Rend le fond transparent
                 focusedIndicatorColor = Color.Transparent,  // Supprime la ligne lors du focus
-                unfocusedIndicatorColor = Color.Transparent // Supprime la ligne sans focus
+                unfocusedIndicatorColor = Color.Transparent// Supprime la ligne sans focus
             ),
             value = userEmail,
             placeholder = {
@@ -113,7 +122,8 @@ fun Register(
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
-                    Text(text = "Un email pour vous connecter ...",
+                    Text(
+                        text = "Un email pour vous connecter ...",
                         fontSize = 13.sp,
                         modifier = Modifier.padding(start = 8.dp, top = 3.dp) // Padding à gauche
                     )
@@ -125,8 +135,9 @@ fun Register(
         Spacer(modifier = Modifier.padding(8.dp))
         TextField(
             modifier = Modifier.border(1.dp, Color(0xFFE2EDF2), shape = RoundedCornerShape(8.dp)),
-            colors = TextFieldDefaults.textFieldColors(
-                containerColor = Color.Transparent, // Rend le fond transparent
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent, // Rend le fond transparent
+                unfocusedContainerColor = Color.Transparent, // Rend le fond transparent
                 focusedIndicatorColor = Color.Transparent,  // Supprime la ligne lors du focus
                 unfocusedIndicatorColor = Color.Transparent // Supprime la ligne sans focus
             ),
@@ -138,7 +149,8 @@ fun Register(
                         contentDescription = null,
                         modifier = Modifier.size(18.dp)
                     )
-                    Text(text = "Entrez votre mot de passe ...",
+                    Text(
+                        text = "Entrez votre mot de passe ...",
                         fontSize = 13.sp,
                         modifier = Modifier.padding(start = 8.dp, top = 3.dp) // Padding à gauche
                     )
@@ -159,14 +171,14 @@ fun Register(
             modifier = Modifier.size(204.dp, 48.dp),
             shape = RoundedCornerShape(10.dp),
             onClick = {
-            viewModel.signUp(
-                context,
-                displayName,
-                userEmail,
-                userPassword,
-                navController = navController,
-            )
-        }) {
+                viewModel.signUp(
+                    context,
+                    displayName,
+                    userEmail,
+                    userPassword,
+                    navController = navController,
+                )
+            }) {
             Text(text = "Continuer")
         }
 
@@ -176,12 +188,14 @@ fun Register(
                 contentColor = Color.Black // Couleur du texte dans le bouton
             ),
             onClick = {
-            navController.navigate("login&register")
-        }) {
+                navController.navigate("login&register")
+            }) {
             Text(text = "Retour", fontSize = 13.sp)
         }
 
         when (userState) {
+            is UserState.Loading ->
+                LoadingComponent()
 
             is UserState.Success -> {
                 val message = (userState as UserState.Success).message
@@ -197,7 +211,9 @@ fun Register(
         }
 
         if (currentUserState.isNotEmpty() && userState is UserState.Error) {
-            Text(text = "Erreur : $currentUserState",
+            val text = currentUserState
+            Text(
+                text = "Erreur : $text",
                 style = TextStyle(
                     color = Color.Red,
                     fontSize = 13.sp

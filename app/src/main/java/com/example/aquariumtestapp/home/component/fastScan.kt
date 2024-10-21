@@ -20,7 +20,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -46,10 +45,9 @@ import kotlinx.coroutines.launch
 fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
     val context = LocalContext.current
     val storeSelectedAquariumViewModel = StoreSelectedAquariumViewModel(context)
-    val selectedAquarium  = storeSelectedAquariumViewModel.selectedAquarium.value
-    val lastParam = parameterAquariumViewModel.lastParameter.collectAsState()
+    val lastParam = parameterAquariumViewModel.lastParameter.value
 
-    LaunchedEffect(lastParam.value)
+    LaunchedEffect(lastParam)
     {
 
     }
@@ -122,6 +120,7 @@ fun fastScan (parameterAquariumViewModel : ParameterAquariumViewModel) {
             Text(
                 text = "Paramètres chimiques de l'aquarium",
                 fontSize = 14.sp,
+                color = Color(0xFF696969),
                 modifier = Modifier.padding(top = 5.dp)
             )
             HorizontalPager(

@@ -37,9 +37,7 @@ import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.data.viewModel.ParameterAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.SelectAquariumViewModel
 import com.example.aquariumtestapp.home.viewModel.StoreSelectedAquariumViewModel
-
 import com.example.aquariumtestapp.utils.LoadingComponent
-
 @Composable
 fun listAqua(
     bottomSheetContinue : () -> Unit,
@@ -155,6 +153,8 @@ fun listAqua(
                 is UserState.Error -> {
                     Text("Aucun aquarium trouvé", fontSize = 20.sp, modifier = Modifier.padding(16.dp))
                 }
+
+                else -> {}
             }
 
             Button(
