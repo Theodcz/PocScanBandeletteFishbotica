@@ -27,13 +27,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.aquariumtestapp.R
-import com.example.aquariumtestapp.data.viewModel.SupabaseViewModel
-import com.example.aquariumtestapp.data.model.UserState
-import com.example.aquariumtestapp.utils.LoadingComponent
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.data.model.UserState
+import com.example.aquariumtestapp.data.viewModel.SupabaseViewModel
+import com.example.aquariumtestapp.utils.LoadingComponent
 
 @Composable
 fun Register(
@@ -155,6 +156,7 @@ fun Register(
                     )
                 }
             },
+            visualTransformation = PasswordVisualTransformation(),
             onValueChange = {
                 userPassword = it
             }
