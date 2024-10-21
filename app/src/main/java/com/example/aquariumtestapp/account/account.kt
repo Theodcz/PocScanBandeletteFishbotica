@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-
+import com.example.aquariumtestapp.data.SupabaseViewModel
 
 @Composable
 fun account (viewModel: SupabaseViewModel = viewModel(), navController: NavHostController) {

@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.aquariumtestapp.R
+import com.example.aquariumtestapp.data.SupabaseViewModel
 import com.example.aquariumtestapp.data.model.UserState
 import com.example.aquariumtestapp.utils.LoadingComponent
 
