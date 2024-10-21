@@ -9,7 +9,7 @@ import com.example.aquariumtestapp.data.model.ParameterAquarium
 import com.example.aquariumtestapp.data.model.ParameterAquariumGetBdd
 import com.example.aquariumtestapp.data.repository.ParameterAquariumRepository
 import kotlinx.coroutines.launch
-class ParameterAquariumViewModel : ViewModel() {
+class ParameterAquariumViewModel : ViewModel() { // permet de gerer les parametres de l'aquarium
 
     private val repository = ParameterAquariumRepository()
     private val _parameterData = mutableStateOf<List<ParameterAquariumGetBdd>>(emptyList())

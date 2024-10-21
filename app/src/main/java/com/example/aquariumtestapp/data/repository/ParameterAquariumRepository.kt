@@ -8,19 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.github.jan.supabase.postgrest.postgrest
 
-class ParameterAquariumRepository {
-
-
-    /*suspend fun postParameterAquarium(parameter: ParameterAquarium) {
-        try {
-            SupabaseClient.client.postgrest["ParameterAquarium"].insert(
-                parameter
-            )
-            Log.e("kilo","postParameterAquarium success")
-        } catch (e: Exception) {
-            Log.e("kilo","Error postParameterAquarium : ${e.message}")
-        }
-    }*/
+class ParameterAquariumRepository { // permet de gerer les parametres de l'aquarium
 
     suspend fun postParameterAquarium(parameter: ParameterAquarium) {
         try {

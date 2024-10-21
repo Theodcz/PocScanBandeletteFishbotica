@@ -12,10 +12,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.aquariumtestapp.connect.LoginScreen
-import com.example.aquariumtestapp.connect.PageBienvenue
-import com.example.aquariumtestapp.connect.PageLoginAndConnect
-import com.example.aquariumtestapp.connect.Register
+import com.example.aquariumtestapp.ui.connect.LoginScreen
+import com.example.aquariumtestapp.ui.connect.PageBienvenue
+import com.example.aquariumtestapp.ui.connect.PageLoginAndConnect
+import com.example.aquariumtestapp.ui.connect.Register
 import com.example.aquariumtestapp.navigation.bottomAppBar
 import com.example.aquariumtestapp.ui.theme.AquariumTestAppTheme
 
